@@ -1,0 +1,4 @@
+boulet.gif		:boulet:
+bouletrepere.gif	:bouletrep:
+bravo.gif		:bravo:
+cabug.gif		:bug:

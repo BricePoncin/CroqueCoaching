@@ -1,0 +1,674 @@
+/* ==============================================
+   FEUILLE DE STYLES DES GABARITS HTML/CSS
+   © Elephorm & Alsacreations.com
+   Conditions d'utilisation:
+   http://creativecommons.org/licenses/by/2.0/fr/
+   ============================================== */
+
+.hidden {display: none;}
+.visible {display: block;}
+
+
+/* --- STYLES DE BASE POUR LE TEXTE ET LES PRINCIPAUX ÉLÉMENTS --- */
+
+/* Page */
+
+html {
+	font-size: 100%; /* Voir -> Note 1 à la fin de la feuille de styles. */
+}
+body {
+	margin: 0;
+	padding: 10px 0px; /* Note -> 2 */
+	font-family: Verdana, "Bitstream Vera Sans", "Lucida Grande", sans-serif; /* 3 */
+	font-size: .8em; /* -> 4 */
+	line-height: 1.25; /* -> 5 */
+	color: black;
+	background: white;
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6 {
+	margin: 1em 0 .5em 0; /* -> 6 */
+}
+h1, h2 {
+	font-family: Georgia, "Bitstream Vera Serif", Norasi, serif;
+	font-weight: normal; /* -> 7 */
+}
+h1 {
+	font-size: 3em; /* -> 8 */
+	font-style: italic;
+}
+h2 {font-size: 1.8em;}
+h3 {font-size: 1.2em;}
+h4 {font-size: 1em;}
+
+/* tableaux */
+table {font-size: 1em;
+    text-align:center;}
+th {background-color: #EAF098; font-weight: bold; color: #1C5059;}
+th a {text-decoration: underline; color: #1C5059;}
+td {width: 100px}
+
+/* Listes */
+ul, ol {
+	margin: .75em 0 .75em 24px;
+	padding: 0; /* -> 9 */
+}
+ul {
+	list-style: square;
+}
+li {
+	margin: 0;
+	padding: 0;
+}
+
+/* Paragraphes */
+p {
+	margin: .75em 0;
+}
+li p, blockquote p {
+	margin: .5em 0;
+}
+
+/* Citations */
+blockquote, q {
+	font-size: 1.1em;
+	font-style: italic;
+	font-family: Georgia, "Bitstream Vera Serif", Norasi, serif;
+}
+blockquote {
+	margin: .75em 0 .75em 24px;
+}
+cite {
+	font-style: italic;
+}
+
+/* Liens */
+a {
+	color: mediumblue;
+	text-decoration: none;
+}
+a:hover, a:focus {
+	color: crimson;
+}
+a img {
+	border: none; /* -> 10 */
+}
+
+/* Divers éléments de type en-ligne */
+em {
+	font-style: italic;
+}
+strong {
+	font-weight: bold;
+	color: dimgray;
+}
+
+
+/* --- STYLES POUR CERTAINS CONTENUS DES GABARITS --- */
+
+pre, code {
+	font-size: 100%;
+	font-family: "Bitstream Vera Mono", "Lucida Console", "Courier New", monospace;
+}
+pre {
+	width: 90%;
+	overflow: auto;
+	overflow-y: hidden;
+	margin: .75em 0;
+	padding: 12px;
+	background: #eee;
+	color: #555;
+}
+pre strong {
+	font-weight: normal;
+	color: black;
+}
+#copyright {
+	margin: 20px 0 5px 0;
+	text-align: right;
+	font-size: .8em;
+	color: #848F63;
+}
+#copyright a {
+	color: #848F63;
+	text-decoration: none;
+}
+#copyright a:hover, #copyright a:focus {
+	text-decoration: underline;
+}
+
+
+
+
+
+/* --- NOTES ---
+
+1.	Ce "font-size: 100%" est normalement inutile. On l'utilise uniquement
+	pour éviter un bug de redimensionnement du texte dans Internet Explorer.
+
+2.	Par défaut, les navigateurs ont un padding (ou, pour certains, un
+	margin) de 6px pour l'élément BODY. C'est ce qui évite que le texte
+	ne soit complètement collé aux bords de la zone de visualisation du
+	navigateur lorsqu'on affiche une page «brute», sans mise en forme.
+	Mais ce retrait de 6px est un peu faiblard: on le renforce donc.
+	Notez bien que les feuilles de styles des gabarits pourront augmenter
+	ce retrait, ou bien l'annuler.
+	
+3.	Voici quelques exemples de collections cohérentes de fontes (propriété
+	CSS "font-family"):
+	font-family: Arial, Helvetica, "Nimbus Sans L", sans-serif;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-family: Georgia, "Bitstream Vera Serif", Norasi, serif;
+	font-family: "Times New Roman", Times, "Nimbus Roman No9 L", serif;
+		
+4.	Taille du texte de base de la page. Dépend de la taille du texte par
+	défaut du navigateur (souvent 16px), et des réglages de l'utilisateur.
+	À adapter en fonction de la fonte choisie, et du rendu souhaité.
+	En général, on utilisera une valeur de base entre .65em et 1em
+	(ou 65% et 100%).
+
+5.	Hauteur de ligne. À adapter en fonction de la fonte choisie, et des
+	besoins particuliers (lignes de texte longues ou courtes, titre ou
+	corps de texte...).
+
+6.	En général, les styles par défaut des navigateurs font que les marges
+	en haut et en bas des titres sont équivalentes. Ici, en diminuant la
+	marge du bas, on cherche à rapprocher le titre du contenu qu'il introduit.
+
+7.	Les styles par défaut des navigateurs mettent les titres en gras.
+	Si on souhaite passer à des caractères «normaux», on doit utiliser
+	font-size: normal.
+
+8.	Pour un élément en "font-size: 3em", la taille du texte sera le triple de
+	la taille du texte de l'élément parent.
+	À noter: on aurait pu écrire "font-size: 300%" pour le même résultat.
+
+9.	Par défaut, les listes UL et OL ont un retrait à gauche qui peut être,
+	suivant les navigateurs:
+	- un padding-left de 40px;
+	- ou bien un margin-left de 40px.
+	On met tout le monde d'accord avec une marge à gauche de 24px, et pas
+	de padding.
+
+10.	Les navigateurs donnent souvent aux images placées dans des liens
+	une bordure disgracieuse. On annule ce style souvent gênant en appliquant
+	un "border: none" aux images qui se trouvent à l'intérieur d'un lien.
+
+*/
+
+
+
+
+
+
+
+/* --- COULEURS --- */
+
+/* Note: vous pouvez modifier simplement l'aspect de ce gabarit en modifiant
+   uniquement les couleurs de fond (propriétés background) et les couleurs
+   du texte (propriété color).
+   Pour modifier la disposition des blocs, voir plus bas dans la feuille de
+   styles la partie «positionnement». */
+
+/* Général */
+body {
+	/*color: #F0E39E;
+	background: #2C2F22;*/
+	
+	color:#1c5059;background:#eaf098;
+	
+}
+a {
+	color: #FF6533;
+}
+a:hover, a:focus {
+	color: #FF4C00;
+}
+strong {
+	color: #A1B55D;
+}
+
+/* Navigation */
+#navigation {
+	background: #181A12;
+}
+#navigation form {
+	color: #FF6533;
+}
+#navigation a {
+	color: #FF6533;
+}
+#navigation a:hover, #navigation a:focus {
+	background: #000000;
+}
+
+/* Contenu principal */
+#contenu {
+	color: #363B29;
+	background: #cbd888;
+}    
+
+#contenu a {
+	color: #332510;
+}
+#contenu a:hover, #contenu a:focus {
+	color: #6E5122;
+}
+
+#contenu strong {
+	color: #181A12;
+}
+
+
+/* --- POSITIONNEMENT --- */
+
+/* Page */
+body {
+	padding: 20px 00px; /* Voir -> Note 1 ci-dessous */
+}
+
+/* En-tête */
+#entete {
+	padding: 20px 0;
+}
+#entete h1 {
+	margin: 0;
+}
+#entete h1 img {
+	/*float: left;*/
+	margin: 7px 20px 0px 0;
+}
+#entete .sous-titre {
+	margin: 4px 0 0px 0;
+}
+
+/* Menu de navigation */
+#navigation {
+	/*width: 18%;*/
+	height: 30px;
+	padding-top: 5px;
+	/*float: left; /* -> 2 */
+}
+#navigation ul {
+	margin: 0;
+/*	padding: 20px 10px;*/
+	list-style: none;
+	
+}
+#navigation form {display: inline;}
+#navigation li {
+		display: inline ;
+}
+#navigation a {
+	/*display: block;*/
+	height: 1%; /* -> 3 */
+	/*padding: 6px 6px 6px 10px;*/
+margin: 0 2px;
+padding: 5px 15px;
+
+	line-height: 1.5;
+	font-size: .9em;
+	text-decoration: none;
+}
+
+/* Contenu */
+#contenu {
+	margin-left: 0%; /* -> 4 */
+	margin-bottom: 20px;
+	padding: 10px 20px;
+}
+#contenu > :first-child {
+	margin-top: 10px;
+}
+#contenu p, #contenu li {
+	line-height: 1.5;
+}
+
+/* Mention de paternité */
+#copyright {
+	margin-left: 20%;
+}
+
+/*.stats table{ border: 1px solid orange; font-size: 1.5em;}
+.stats table td{ width: 200px;border: 1px solid red; }
+*/
+table.stats{
+		background-color:#CCCCCC;
+    border: solid #000 3px;
+    width: 400px;
+    text-align:center;
+}
+
+table.stats td {
+    padding: 5px;
+    border: solid #000 1px;
+}
+
+table.stats #stats1 td {
+    background-color:#0077FF;
+}
+table.stats #stats2 td{
+    background-color:#FF3322;
+}
+table.stats #stats_fus td{
+    background-color:#8855AA;
+}
+/* --- NOTES ---
+
+1.	Ce gabarit utilise du padding sur l'élément BODY pour créer un retrait
+	esthétique tout autour du conteneur principal.
+	Rappel: "padding: 20px 50px;" se lit ainsi:
+	- padding-top et padding-bottom de 20px;
+	- padding-left et padding-right de 50px.
+
+2.	C'est la propriété "float" qui nous permet de placer deux blocs
+	côte-à-côte. Notez bien que l'élément flottant (ici, notre menu de
+	navigation) doit être placé en premier dans le code HTML. Il est
+	préférable de lui donner une largeur, ce que nous faisons ici avec un
+	"width: 18%;".
+
+3.	Correction d'un bug d'Internet Explorer 6. Voir la dernière partie de
+	http://blog.alsacreations.com/2006/10/20/294-impact-sur-le-rendu-de-la-
+	mise-en-forme-du-code-html
+	Dans l'idéal, on placera ce correctif dans une feuille séparée, appelée
+	via un commentaire conditionnel visant IE6.
+
+4.	Les éléments flottants ne repoussent pas les blocs, mais repoussent
+	uniquement leur contenu. Pour que notre bloc de contenu principal forme
+	une colonne distincte du menu, on lui donne donc une marge à gauche de 20%.
+	Il existe une autre technique pour adapter la largeur d'un bloc aux
+	flottants qui le précèdent. On pourra lire l'article suivant:
+		http://css.alsacreations.com/Faire-une-mise-en-page-sans-tableaux/
+		design-trois-colonnes-positionnement-flottant
+
+*/
+
+
+
+#bulle  img{ border:none;}
+#bulle { position: absolute; visibility: hidden;  font-size:12px;}
+.info{ border:1px solid #666666; padding: 7px; color:#666666; background-color:#FFFFFF; font-family:"trebuchet MS";}
+
+
+#tab_monstres {
+	border-collapse : collapse;
+
+	border-left:1px solid navy;
+	border-top:1px solid navy;
+	border-bottom:0;
+	border-right:1px solid navy;
+}
+#tab_monstres td {
+	border-left:0;
+	border-top:0;
+	border-bottom:1px solid navy;
+	border-right:0;
+}
+
+#tab_monstres td {
+	border-left:0;
+	border-top:0;
+	border-bottom:1px solid navy;
+	border-right:1px solid navy;
+}
+
+#tab_monstres td.stat_nu { background-color: #F9F7D2; }
+#tab_monstres td.stat_eq { background-color: #EEF7F9; }
+
+.ouvre_ferme a { text-decoration: none; }
+
+.monstre_lst { display: none; }
+
+tr.pair  { background-color: #EEEEEE; border-bottom: 1px solid black;}
+tr.impair{ background-color: #F5F8CA; border-bottom: 1px solid black;}
+
+
+div.information {border: 2px solid yellow; background-color: #FFFF99; color: red; padding: 10px; margin-bottom: 10px;}
+
+table#portails{width: 90%;}
+
+tr.direct td{ font-weight: bold;}
+tr.indirect td{ font-weight: bold; color: grey; font-style: italic;}
+
+table.head_fixe {width: 90%;}
+table.head_fixe thead {
+   height: 50px;     /* Hauteur de tes entêtes */
+}
+
+table.head_fixe tbody {
+   height: 650px;     /* Hauteur du reste des données */
+   overflow-y: visible;     /* Ton scroll vertical */
+   overflow-x:hidden; /* Scroll horizontal caché */
+}
+
+table.head_fixe .last_col {
+   padding-right:20px;
+}
+
+table#tab_monstres{ font-size: 0.9em; /*border-collapse: separate;*/ }
+table#tab_monstres tr{}
+table#tab_monstres tr.equip {display: none;}
+table#tab_monstres tr.apoil {display: ;}
+
+table#tab_monstres th.entete_lig { width:150px; height: 50px;}
+table#tab_monstres th { border:1px solid black; }
+table#tab_monstres th td{margin-top: 10px;
+  									  margin-bottom: 10px; height: 25px;}
+table#tab_monstres td{font-size: 1.2em;}
+  									  
+table#aide_contrats {
+	font-size: 0.9em;
+
+   width:80%;
+   margin-left: 20%;
+
+}
+table#aide_contrats th, td {
+margin:0;
+   padding: 0;
+ }
+/*
+table#aide_contrats thead {
+   height: 50px;     /* Hauteur de tes entêtes */
+}
+/*
+table#aide_contrats tbody {
+   height: 450px;     /* Hauteur du reste des données */
+/*   overflow-y: auto;     /* Ton scroll vertical */
+/*   overflow-x:hidden; /* Scroll horizontal caché */
+/*}
+*/
+               
+#aide_contrats {font-size: 50%;}
+               
+#aide_contrats a {text-decoration: none; color: black;}
+
+.monstre_retire td{ background-color: #770000; font-weight: bold; }
+
+table#aide_contrats tr.ville_a_points {display: table-row;}
+table#aide_contrats tr.ville_sans_point {display: table-row;}
+
+.ville_a_points th { background-color: #AAAAAA; font-weight: bold; }
+.ville_a_points { background-color: #AAAAAA; font-weight: bold; }
+
+.accepte { background: #32939C; }
+.retire { background: #CC0033; font-weight: bold;}
+.affecte { background: #90C143; font-weight: bold;}
+#aide_contrats .affecte a {color:white;}
+.occupe { background: #32939C;}
+.fatigue {background: #FCBB00;}
+
+.gain_max {border: 2px solid red; /*font-weight: bold;*/ text-color: white; font-style: italic;text-decoration: underline;}
+           
+.preferences { align: center;width: 65%; border: 1px solid navy;}
+.preferences th {width: 50%; text-align: right;}
+.preferences td {width: 50%; text-align: left;}
+
+table.records { float : left; margin-left : 5px; width: 250px; } 
+table.records th.th75{ width: 75px; } 
+
+
+#contenu a.lien_bouton {color: white;
+								background-color: black; 
+								text-decoration: none;  
+								text-align: center;
+ 								border: 2px outset #c0c0c0; 
+ 								padding: 5px; 
+ 								width:200px;        
+ 								}
+#contenu a.lien_bouton:hover, a.lien_bouton:focus {
+     background-color: orange; color: black;border: 2px inset #c0c0c0;
+	}
+
+
+div.xpMiniBar{position:relative;color:#F28C11;font-size:12px;line-height:12px;float:left;}
+div.xpBorder,div.xpMiniBar div.xpBorder{display:block;border:1px solid #F26C12;background-color:#fff5e8;width:100px;}
+ div.xpBorder div.xpBar,div.xpMiniBar div.xpBorder div.xpBar{position:relative;background-color:#f7cda3;border-right:1px solid #F26C12;height:10px;width:1% ;display:block;line-height:0px;font-size:0px;padding:0px;margin:0px;background-repeat:no-repeat;background-image:url(images/input_bg5.jpg);background-position:top left;background-repeat:repeat-x;}
+div.xpMiniBar div.xpNb{color:#F26C12;position:absolute ;top:0px;left:00%;font-size:10px;letter-spacing:1px;font-weight:bold;}
+div.xpBox2{color:#468b49;}
+div.xpBox2 div.xpBorder{border:1px solid #5E833B;background-color:#eaf098;}
+div.xpBox2 div.xpBorder div.xpBar{border-right:1px solid #468b49;background-color:#f7cda3;background-image:url(images/input_bg3.jpg);}
+div.xpBox2 div.xpNb{color:#2c4812;}
+div.xpMiniBar{color:#468b49;font-size:12px;line-height:12px;float:right;}
+div.xpMiniBar div.xpBorder{width:55px;border:1px solid #32949D;background-color:#eaf098;background-image:url(images/bgbar.jpg);background-position:top left;}
+div.xpMiniBar div.xpBorder div.xpBar{height:10px;border-right:1px solid #32949D;background-color:#f7cda3;background-image:url(images/bar.jpg);}
+div.xpMiniBar div.xpNb{color 					:#123438;position:absolute ;top:0px;left:00%;font-size:12px;letter-spacing:1px;font-weight:bold;}
+
+table.tab_accueil {font-size: .8em;}
+
+
+.team_rouge { font-weight: bold; color: red; }
+.team_bleue { font-weight: bold; color: blue; }
+
+
+/*--------------------------
+MOBILES
+___________________________*/
+
+@media handheld, only screen and (max-device-width:500px), only screen and (max-width:500px), only screen and (-webkit-min-device-pixel-ratio: 2) {
+	.dc-home .post .post-content, .dc-home .post .post-info, .dc-home .post .post-tags, .dc-home .post .read-it, .dc-home .post .post-info-co, #sidebar .tags ul {
+		display: none;
+		}
+	#page, #content, #top, #wrapper, #main, #footer, #sidebar, #search, aside[role=complementary] {
+		width: auto;
+		float: none;
+	}
+	#content, #top, #wrapper, #main, #footer, #sidebar, #search, #blognav, #blogextra, aside[role=complementary] {
+		margin: 0 0;
+		padding: 0 0;
+	}
+	#page  {
+		margin: 3em 1em 1em 1em;
+	}
+	#wrapper {
+		padding: 1em 1em;
+	}
+	#top h1 {
+		font-size: 3em;
+		margin: .3em .3em;
+	}
+	html[lang=fr] #top h1:after {
+		content: " (mobile)";
+		font-size: 30%;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.post-title {
+		font-size: 2em;
+	}
+	.dc-home .post-title {
+		font-size: 1.5em;
+	}
+	#prelude {
+		color: rgb(171, 171, 171);
+		left: 0;
+		right: 0;
+		margin: 0 0;
+		padding: 0 1em;
+	}
+	#prelude a {
+		color: #6b6b6b;
+	}
+	#prelude a:before {
+		content: "> ";
+	}
+	#prelude a:first-child {
+		display: none;
+	}
+	.dc-home .post-info-co {
+		border-top: none;
+		border-bottom: none;
+	}
+	.dc-home .post {
+		border-bottom: 1px solid #BFBFBF ;
+		margin-bottom: 0;
+	}
+	.dc-home article.first {
+		border-top: 1px solid #BFBFBF ;
+	}
+	.dc-home article .post-title, .dc-home #content article.first .post-title {
+		margin-top: 0;
+		padding-top: .5em;
+		padding-bottom: .5em;
+	}
+	.dc-home .post-title a {
+		display: block;
+		width: 100%;
+	}
+	.dc-home .post-title:before {
+		content: ">";
+		float: right;
+		color: rgb(171,171,171);
+	}
+	.post object, .post video {
+		width: 100%;
+
+	}
+	#sidebar li a {
+		display: block;
+		width: 100%;
+	}
+	#sidebar li.ligal a {
+		display: block;
+		width: 80%;
+		float: left;
+	}
+	#topnav li span {
+		display: none;
+	}
+	#comment-form fieldset p.field {
+		padding:0 0;
+	}
+	pre {
+		white-space: -moz-pre-wrap;
+		white-space: -hp-pre-wrap;
+		white-space: -o-pre-wrap;
+		white-space: -pre-wrap;
+		white-space: pre-wrap;
+		white-space: pre-line;
+		word-wrap: break-word;
+
+	}	
+	.post img, .post object, .post iframe {
+	 	max-width: 80%;
+	}
+/*
+	.hasJS #sidebar h2:before {
+		content: "? ";
+		color: rgb(171,171,171);
+		font-size: 90%;
+		font-family: arial, helvetica, sans-serif;
+	}
+	*/	
+}
+/*--------------------------
+grands écrans
+___________________________*/
+@media only screen and (min-width:1400px) {
+/*
+	styles css
+
+*/
+}
+
+
