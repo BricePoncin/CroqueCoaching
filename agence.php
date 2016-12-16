@@ -1,7 +1,9 @@
-<HTML>
-<head>
-		<link rel="shortcut icon" href="favicon.ico" >
-		<link rel="icon" type="image/gif" href="animated_favicon1.gif" >
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<HEAD>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="icon" type="image/gif" href="animated_favicon1.gif" />
 		<link rel="stylesheet" type="text/css" href="class.css" />
 </head>
 <body>
@@ -37,19 +39,26 @@
 ?>
 
 	<div id="infos" style="width:45%;float: left;">
-			<table width="500">
-					<tr><td><img src="images/stat_syndicat.gif"></td>
-							<td colspan="2">Agence <span style="font-weigth: bold; color:orange;"><?PHP echo $xml['name'];?></span> (<?PHP echo $xml ['days'];?> jours)</td></tr>
+			<table>
+					<tr><td width="50"><img src="images/stat_syndicat.gif"></td>
+						<td colspan="2">Agence <span style="font-weigth: bold; color:orange;"><?PHP echo $xml['name'];?></span> (<?PHP echo $xml ['days'];?> jours)</td>
+						<td rowspan="19">
+							<?PHP 
+								echo ( $xml[0]->description );
+							?>
+						</td>
+					</tr>
 		
 <tr><td colspan="3"><div  style="height:2px; border:1px solid black; margin-right:15px"></div></td></tr>
 		
-				<tr><td rowspan="2"><img src="images/stat_lvl.gif"></td><td colspan="2">Niveau <?PHP echo $xml['level']."</td></tr>";
-			echo "<tr><td colspan=\"3\"> prochain niveau dans ".$contrats_restants." contrats</td></tr>";
-		?>
+				<tr><td rowspan="2"><img src="images/stat_lvl.gif"></td>
+					<td colspan="2">Niveau <?PHP echo $xml['level']; ?></td>
+				</tr>
+				<tr><td colspan="2"><?PHP echo "prochain niveau dans ".$contrats_restants." contrats"; ?></td></tr>
 <tr><td colspan="3"><div  style="height:2px; border:1px solid black; margin-right:15px"></div></td></tr>
 				<tr><td rowspan="2"><img src="images/stat_city.gif"></td>
 						<td colspan="2"><?PHP echo $xml['portails'];?> portails existants</td></tr>
-				<tr><td colspan="3"><?PHP echo $xml['cities'];?> villes g&eacute;r&eacute;es (<?PHP echo round($xml['cities']/426*100, 2)?> %).</td></tr>
+				<tr><td colspan="2"><?PHP echo $xml['cities']; ?> villes g&eacute;r&eacute;es (<?PHP echo round($xml['cities']/426*100, 2); ?> %).</td></tr>
 		
 <tr><td colspan="3"><div  style="height:2px; border:1px solid black; margin-right:15px"></div></td></tr>
 		

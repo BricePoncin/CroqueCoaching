@@ -1,3 +1,51 @@
+<style>
+.onoffswitch {
+    position: relative; width: 170px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 0px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 26px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+.onoffswitch-inner:before {
+    content: attr(data-on) " ";
+    padding-left: 10px;
+    background-color: #2E8DEF; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: attr(data-off) " ";
+    padding-right: 10px;
+    background-color: #CCCCCC; color: #333333;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 25px; margin: 0px;
+    background: #000000;
+    position: absolute; top: 0; bottom: 0;
+    right: 145px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>
 <?PHP
 
 include_once("sql.php");
@@ -52,11 +100,11 @@ include_once("session.php");
 
 function get_semaine($semaine,$annee)
 {
-// on sait que le 4 janvier est tout le temps en première semaine
+// on sait que le 4 janvier est tout le temps en premi&egrave;re semaine
 // cf. fr.wikipedia.org/wiki/ISO...
 // donc on part du 4 janvier et on avance de ($semaine-1) semaines
 // et on teste si on est un lundi. Si ce n'est pas le cas on recule
-// d'un jour jusqu'à trouver un lundi.
+// d'un jour jusqu'&agrave; trouver un lundi.
 $date_depart = 4 ;
 while (date("w",mktime(0,0,0,01,($date_depart+($semaine-1)*7),$annee)) != 1)
 $date_depart-- ;
@@ -83,13 +131,13 @@ return $dateSemaine;
  	$lundi_4 = $tmp[0];
 	
 
-		$arObjets[ '200']='Banane pr&eacute;-historique';
+	$arObjets[ '200']='Banane pr&eacute;-historique';
     $arObjets[ '300']='Bi&egrave;re Hk';
     $arObjets[ '400']='Sandwich happy-days BigMarx';
     $arObjets[ '500']='Clef &agrave; molette industrielle';
-    $arObjets[ '600']='Gros crâne usagé';
+    $arObjets[ '600']='Gros cr&acirc;ne usag&eacute;';
     $arObjets[ '800']='Tableau du 16e';
-    $arObjets[ '900']='Énorme citrouille bien méchante';
+    $arObjets[ '900']='&eacute;norme citrouille bien m&eacute;chante';
     $arObjets['1000']='Tuyau flexible';
 
 
@@ -262,6 +310,9 @@ for( $i = 0; $i < count($brulage); $i++)
 							 ." ORDER BY 2 ASC";
 				select($stmt, $arTopDefense);
 
+				/*************************/
+				/* Passages de Gros Miam */
+				/*************************/
 				$stmt  = "SELECT MAX(date) date";
 				$stmt .= " FROM cm_dumplog cd";
 				$stmt .= " WHERE TYPE = 5";
@@ -270,18 +321,40 @@ for( $i = 0; $i < count($brulage); $i++)
 				$vLastBrulage = $arLastBrulage[0]['date'];
 
 				$arPassagesGM=array();
-				/*
-				$stmt = "SELECT min(`date`) date, count(*) nbdef, sum(concentration) concentration, cd2.id id"
-							 ." FROM cm_dumplog cd, (SELECT id FROM cm_dumplog WHERE syndicate_id=".$syndic_id." AND type=7) cd2"
-							 ." WHERE syndicate_id=".$syndic_id
-							 ."   AND type=6"
-							 ."   AND cd.id BETWEEN cd2.id AND (SELECT min(cd3.id) FROM cm_dumplog cd3 WHERE syndicate_id=".$syndic_id." AND type=8 AND cd3.id>cd2.id)"
-							 ."   AND `date` > '".$vLastBrulage."'"
-							 ." GROUP BY cd2.id"
-							 ." ORDER BY cd2.id asc";
+				$stmt = "SELECT `id`, `syndicate_id`, `user`, date, `date` dt_deb, NULL dt_fin, `concentration` FROM `cm_dumplog`"
+				       ." WHERE `syndicate_id` = ".$syndic_id
+                       ."  and `type` = 7"
+					   ."   AND `date` > '".$vLastBrulage."'"
+                       ." ORDER BY date  DESC";
 				select($stmt, $arPassagesGM);
-				*/
-disconnect();
+				
+				$index = count($arPassagesGM) - 1;
+				while($index >= 0)
+				{
+					$arTmp=array();
+					$stmt = "SELECT MIN(date) dt_fin"
+						   ."  FROM `cm_dumplog`"
+						   ." WHERE `syndicate_id` = ".$syndic_id
+						   ."   AND `type` = 8"
+						   ."   AND date > '".$arPassagesGM[$index]['dt_deb']."'";
+					select($stmt, $arTmp);
+//echo "<!--".$stmt."-->\n";
+					$arPassagesGM[$index]['dt_fin'] = $arTmp[0]['dt_fin'];
+					
+					$arCombats=array();
+					$stmt = "SELECT count(*) as nbdef, sum(`concentration`) as concentration FROM `cm_dumplog`"
+				       ." WHERE `syndicate_id` = ".$syndic_id
+  				       ."   AND `type` = 6"
+				       ."   AND date between '".$arPassagesGM[$index]['dt_deb']."' and '".$arPassagesGM[$index]['dt_fin']."'";
+					select($stmt, $arCombats);
+echo "<!--".$stmt."-->\n";
+					$arPassagesGM[$index]['nbdef'] = $arCombats[0]['nbdef'];
+					$arPassagesGM[$index]['concentration'] = $arCombats[0]['concentration'];
+					
+					$index--;
+				}
+				
+				disconnect();
 
 /*
 *
@@ -290,62 +363,125 @@ disconnect();
 */
 
 ?>
-</div>	
-		<div id="navigation" style="color: #FF6533;">
-				<ul class="idTabs"> 
-				  <li><a class="selected" href="#evol">Évolution globale</a></li> 
-				  <li><a href="#objets">Objets</a></li> 
-				  <li><a href="#participation">Top participation</a></li> 
-				  <li><a href="#top_paradox_1">Top paradoxeur</a></li> 
-				  <!--<li><a href="#top_paradox_2">Top Paradoxeur 2</a></li> -->
-				  <li><a href="#top_recyc">Top recycleur</a></li> 
-				  <li><a href="#top_def">Top défenseur</a></li> 
-				  <li><a href="#tas">Évolution par tas</a></li> 
-				  <li><a href="#gm">Passages de GrosMiam</a></li> 
-				  
-				</ul>
-		</div>	
-	<div id="contenu" style="height:800px">
-<?
-					echo "<div id=\"evol\">";
-					echo "<table  class=\"records\">";
-					echo "<tr><th rowspan=\"2\">Agence</th><th colspan=\"2\">".date("d M Y", strtotime($lundi_4))."</th><th colspan=\"3\">".date("d M Y", strtotime($lundi_3))."</th><th colspan=\"3\">".date("d M Y", strtotime($lundi_2))."</th><th colspan=\"3\">".date("d M Y", strtotime($lundi_1))."</th></tr>";
-					echo "<tr><th>Contrib.(m3)</th><th>Défense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>Défense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>Défense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>Défense</th></tr>";
-					
-					$idx=0;
-					foreach($arProgression as $line)
-					{
-							$class=($idx%2==0)?"pair":"impair";
-							$idx++;
-							echo "<tr class=\"$class\"><th>".$line['user']."</th>"
-									."<td>".$line['qty4']."</td><td>".$line['def4']."</td>"
-									."<td>".$line['qty3']."</td><td>".($line['qty3']-$line['qty4'])."</td><td>".$line['def3']."</td>"
-									."<td>".$line['qty2']."</td><td>".($line['qty2']-$line['qty3'])."</td><td>".$line['def2']."</td>"
-									."<td>".$line['qty1']."</td><td>".($line['qty1']-$line['qty2'])."</td><td>".$line['def1']."</td>"
-									."</tr>";
-						
-					}
-					echo "</table>";
-					echo "</div>";
+
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_evol" checked onclick="javascript:ouvre_ferme('','evol');">
+				<label class="onoffswitch-label" for="swtch_evol">
+					<span class="onoffswitch-inner" data-on="&Eacute;volution Globale" data-off="&Eacute;volution Globale"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_obj" onclick="javascript:ouvre_ferme('','objets');">
+				<label class="onoffswitch-label" for="swtch_obj">
+					<span class="onoffswitch-inner" data-on="Objets" data-off="Objets"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_partic" onclick="javascript:ouvre_ferme('','participation');">
+				<label class="onoffswitch-label" for="swtch_partic">
+					<span class="onoffswitch-inner" data-on="Top participation" data-off="Top participation"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_top_para" onclick="javascript:ouvre_ferme('','top_paradox_1');">
+				<label class="onoffswitch-label" for="swtch_top_para">
+					<span class="onoffswitch-inner" data-on="Top paradoxeur" data-off="Top paradoxeur"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_top_recyc" onclick="javascript:ouvre_ferme('','top_recyc');">
+				<label class="onoffswitch-label" for="swtch_top_recyc">
+					<span class="onoffswitch-inner" data-on="Top recycleur" data-off="Top recycleur"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_top_def" onclick="javascript:ouvre_ferme('','top_def');">
+				<label class="onoffswitch-label" for="swtch_top_def">
+					<span class="onoffswitch-inner" data-on="Top d&eacute;fenseur" data-off="Top d&eacute;fenseur"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_tas" onclick="javascript:ouvre_ferme('','tas');">
+				<label class="onoffswitch-label" for="swtch_tas">
+					<span class="onoffswitch-inner" data-on="&Eacute;volution par tas" data-off="&Eacute;volution par tas"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		<div style="width:200px; display: inline-block;">
+			<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swtch_gm" onclick="javascript:ouvre_ferme('','gm');">
+				<label class="onoffswitch-label" for="swtch_gm">
+					<span class="onoffswitch-inner" data-on="Passages de GM" data-off="Passages de GM"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+		
+		<div id="contenu_in" style="height:800px">
+
+					<div id="evol" class="visible">
+						<table  class="records">
+							<tr><th rowspan="2">Agence</th><th colspan="2"><?PHP echo date("d M Y", strtotime($lundi_4)); ?></th><th colspan="3"><?PHP echo date("d M Y", strtotime($lundi_3)); ?></th><th colspan="3"><?PHP echo date("d M Y", strtotime($lundi_2)); ?></th><th colspan="3"><?PHP echo date("d M Y", strtotime($lundi_1)); ?></th></tr>
+							<tr><th>Contrib.(m3)</th><th>D&eacute;fense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>D&eacute;fense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>D&eacute;fense</th><th>Contrib.(m3)</th><th>Prog.(m3)</th><th>D&eacute;fense</th></tr>
+<?PHP					
+								$idx=0;
+								foreach($arProgression as $line)
+								{
+										$class=($idx%2==0)?"pair":"impair";
+										$idx++;
+										echo "<tr class=\"$class\"><th>".$line['user']."</th>"
+												."<td>".$line['qty4']."</td><td>".$line['def4']."</td>"
+												."<td>".$line['qty3']."</td><td>".($line['qty3']-$line['qty4'])."</td><td>".$line['def3']."</td>"
+												."<td>".$line['qty2']."</td><td>".($line['qty2']-$line['qty3'])."</td><td>".$line['def2']."</td>"
+												."<td>".$line['qty1']."</td><td>".($line['qty1']-$line['qty2'])."</td><td>".$line['def1']."</td>"
+												."</tr>";
+									
+								}
+?>
+						</table>
+					</div>
 										
-					echo "<div id=\"objets\">";
-					echo "<table  class=\"records\">\n"; 	
-					echo "<tr><th colspan=2>Objets ramen&eacute;s de paradoxes</th></tr>\n";
-							echo "<tr><th>Type d'objet</th><th class=\"th75\">Objets (nbr)</td></tr>\n";
-					$idx=0;		
-					foreach( $arObjetsParadox as $line)
-					{
-							$class=($idx%2==0)?"pair":"impair";
-							echo "<tr class=\"$class\"><td>".$arObjets[ $line['quantity'] ]."</td><td>".number_format($line['nbr_obj'], 0, ".", " ")."</td></tr>\n";
-							$idx++;
-					}
-					echo "</table>\n"; 	
-					echo "</div>";
+					<div id="objets" class="hidden">
+						<table  class="records">
+							<tr><th colspan=2>Objets ramen&eacute;s de paradoxes</th></tr>
+							<tr><th>Type d'objet</th><th class="th75">Objets (nbr)</td></tr>
+<?PHP
+								$idx=0;		
+								foreach( $arObjetsParadox as $line)
+								{
+										$class=($idx%2==0)?"pair":"impair";
+										echo "<tr class=\"$class\"><td>".$arObjets[ $line['quantity'] ]."</td><td>".number_format($line['nbr_obj'], 0, ".", " ")."</td></tr>\n";
+										$idx++;
+								}
+?>
+						</table>
+					</div>
 					
-					echo "<div id=\"participation\">";
-					echo "<table class=\"records\">\n"; 	
-					echo "<tr><th colspan=2>Participation au tas d'ordures</th></tr>\n";
-					echo "<tr><th>Agence</th><th class=\"th75\">Ordures (m&sup3;)</th></tr>\n";
+					<div id="participation" class="hidden">
+					<table class="records">
+					<tr><th colspan=2>Participation au tas d'ordures</th></tr>
+					<tr><th>Agence</th><th class="th75">Ordures (m&sup3;)</th></tr>
+<?PHP
 					$idx=0;
 					foreach( $arTopOrdurier as $line)
 					{
@@ -353,13 +489,15 @@ disconnect();
 						echo "<tr class=\"$class\"><td>".$line['user']."</td><td>".number_format($line['qty'], 3, ".", " ")."</td></tr>\n";
 						$idx++;	
 					}
-					echo "</table>\n"; 	
-					echo "</div>";
+?>
+						</table>
+					</div>
 					
-					echo "<div id=\"top_paradox_1\">";
-					echo "<table class=\"records\">\n"; 	
-					echo "<tr><th colspan=2>Top 10 paradoxeurs</th></tr>\n";
-					echo "<tr><th>Agence</th><th class=\"th75\">Objets (nbr)</th></tr>\n";
+					<div id="top_paradox_1" class="hidden">
+					<table class="records"> 	
+					<tr><th colspan=2>Top 10 paradoxeurs</th></tr>
+					<tr><th>Agence</th><th class="th75">Objets (nbr)</th></tr>
+<?PHP
 					$idx=0;
 					foreach( $arTopParadox as $line)
 					{
@@ -368,13 +506,12 @@ disconnect();
 							echo "<tr class=\"$class\"><td>".$line['user']."</td><td>".number_format($line['nbr'], 0, ".", " ")."</td></tr>\n";
 						$idx++;	
 					}
-					echo "</table>\n"; 	
-					/*echo "</div>";
-					
-					echo "<div id=\"top_paradox_2\">";*/
-					echo "<table class=\"records\">\n"; 	
-					echo "<tr><th colspan=2>Top 10 paradoxeurs (m&sup3;)</th></tr>\n";
-					echo "<tr><th>Agence</th><th class=\"th75\">Ordures (m&sup3;)</th></tr>\n";
+?>
+					</table> 	
+					<table class="records"> 	
+					<tr><th colspan=2>Top 10 paradoxeurs (m&sup3;)</th></tr>
+					<tr><th>Agence</th><th class="th75">Ordures (m&sup3;)</th></tr>
+<?PHP
 					$idx=0;
 					foreach( $arTopParadoxVol as $line)
 					{
@@ -383,14 +520,15 @@ disconnect();
 							echo "<tr class=\"$class\"><td>".$line['user']."</td><td>".number_format($line['qty'], 3, ".", " ")."</td></tr>\n";
 						$idx++;	
 					}
-					echo "</table>\n"; 	
-					echo "</div>";
-		
-					
-					echo "<div id=\"top_recyc\">";
-					echo "<table class=\"records\">\n"; 	
-					echo "<tr><th colspan=2>TOP 10 recycleurs</th></tr>\n";
-					echo "<tr><th>Agence</th><th class=\"th75\">Ordures (m&sup3;)</th></tr>\n";
+?>
+						</table>
+					</div>
+
+					<div id="top_recyc" class="hidden">
+					<table class="records"> 	
+					<tr><th colspan=2>TOP 10 recycleurs</th></tr>
+					<tr><th>Agence</th><th class="th75">Ordures (m&sup3;)</th></tr>
+<?PHP
 					$idx=0;
 					foreach( $arTopRecycl as $line)
 					{
@@ -399,14 +537,16 @@ disconnect();
 									echo "<tr class=\"$class\"><td>".$line['user']."</td><td>".number_format($line['qty'], 3, ".", " ")."</td></tr>\n";
 							$idx++;	
 					}
-					echo "</table>\n"; 	
-					echo "</div>";
+?>
+						</table>
+					</div>
 		
 					
-					echo "<div id=\"top_def\">";
-					echo "<table class=\"records\">\n"; 	
-					echo "<tr><th colspan=3>Top 10 défenseurs du tas</th></tr>\n";
-					echo "<tr><th>Agence</th><th class=\"th75\">Concentration</th><th class=\"th75\">Monstres intervenus</th></tr>\n";
+					<div id="top_def" class="hidden">
+					<table class="records"> 	
+					<tr><th colspan=3>Top 10 d&eacute;fenseurs du tas</th></tr>
+					<tr><th>Agence</th><th class="th75">Concentration</th><th class="th75">Monstres intervenus</th></tr>
+<?PHP
 					$idx=0;
 					foreach( $arTopDefense as $line)
 					{
@@ -415,18 +555,20 @@ disconnect();
 							echo "<tr class=\"$class\"><td>".$line['user']."</td><td>".number_format($line['concentration'], 0, ".", " ")."</td><td>".number_format($line['mstr'], 0, ".", " ")."</td></tr>\n";
 						$idx++;	
 					}
-					echo "</table>\n"; 	
-					echo "</div>";
+?>
+						</table>
+					</div>
 					
 					
-					echo "<div id=\"tas\">";
-					echo "<table  class=\"records\">";
-					echo "<tr><th rowspan=\"2\">Agence</th>";
+					<div id="tas" class="hidden">
+					<table  class="records">
+					<tr><th rowspan="2">Agence</th>
+<?
 					if ( count($arBrulages) > 0 )
 					{
 						foreach( $arBrulages as $brul )
 						{
-							echo "<th colspan=\"2\">Tas brûlé le ".date("d M Y", strtotime($brul['date']))."</th>";
+							echo "<th colspan=\"2\">Tas br&ucirc;l&eacute; le ".date("d M Y", strtotime($brul['date']))."</th>";
 						}
 					}
 					echo "<th colspan=\"2\">Tas courant</th>";
@@ -436,11 +578,11 @@ disconnect();
 					{
 						foreach( $arBrulages as $brul )
 						{
-							echo "<th>Contrib.(m3)</th><th>Défense</th>";
+							echo "<th>Contrib.(m3)</th><th>D&eacute;fense</th>";
 						}
 					}
-					echo "<th>Contrib.(m3)</th><th>Défense</th></tr>";
-					
+					echo "<th>Contrib.(m3)</th><th>D&eacute;fense</th></tr>";
+
 					$idx=0;
 					foreach($arGlobBrulages as $user => $line)
 					{
@@ -458,34 +600,37 @@ disconnect();
 							}
 							echo "</tr>";
 					}
-					echo "</table>";
-					echo "</div>";
+?>
+						</table>
+					</div>
 					
 		
-					echo "<div id=\"gm\">";
-					echo "<table  class=\"records\">";
-					echo "<tr><th colspan=\"4\">Passages de Gros Miam depuis le dernier brûlage du tas</th>";
-					echo "<tr><th class=\"th75\">Date</th><th class=\"th75\">Nbr&nbsp;Déf.</th><th class=\"th75\">Concentration</th><th class=\"th75\">Intervalle&nbsp;de&nbsp;passages</th></tr>\n";
+					<div id="gm" class="hidden">
+					<table  class="records">
+					<tr><th colspan="4">Passages de Gros Miam depuis le dernier br&ucirc;lage du tas</th>
+					<tr><th class="th75">Date</th><th class="th75">Nbr&nbsp;D&eacute;f.</th><th class="th75">Concentration</th><th class="th75">Intervalle&nbsp;de&nbsp;passages</th></tr>
+<?
 					$idx=0;
 					
 					$prec_date = 0;
 					$date = 0;
-					echo "<h2>Cette donnée est trop consommatrice pour les serveurs de mon hébergeur, je suis donc contraint de ne plus la fournir. Désolé !</h2>"; 
-					/*
-					foreach($arPassagesGM as &$line)
+
+					$index = count($arPassagesGM) - 1;
+					while($index >= 0)
 					{
-							$date = strtotime ( $line['date'] );
-							$diff_date=0;
-							if($prec_date != 0)
-							{	$diff_date = $date - $prec_date;
-								//$diff_date = time_ago($date, $prec_date);
-							}
-							$prec_date=$date;
-							
-							$line['diff'] = $diff_date;
+						$date = strtotime ( $arPassagesGM[$index]['date'] );
+						$diff_date=0;
+						if($prec_date != 0)
+						{	
+							$diff_date = $date - $prec_date;
+						}
+						$prec_date=$date;
+						
+						$arPassagesGM[$index]['diff'] = $diff_date;
+						
+						$index--;
 					}
-					$arPassagesGM = array_reverse($arPassagesGM);
-					
+
 					foreach($arPassagesGM as $line)
 					{
 						$diff_date = $line['diff'];
@@ -508,10 +653,10 @@ disconnect();
 							
 							echo "</tr>";
 					}
-					*/
-					echo "</table>";
-					echo "</div>";
 ?>
+						</table>
+					</div>
+		</div>
 	<script type="text/javascript"> 
   $("#contenu ul").idTabs(); 
 </script>

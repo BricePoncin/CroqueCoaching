@@ -1,6 +1,5 @@
-<!--<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>-->
 <script type="text/javascript">
-<!--
+
 function ouvre_ferme(lien,identifiant)
         {
             var v_class = document.getElementById(identifiant).className;
@@ -39,6 +38,17 @@ function ouvre_ferme(lien,identifiant)
 	  return classElements;
 	}
 
+	function show_hide_contract(cid)
+	{
+		var elment = getElementsById(cid);
+			
+		if( elment.checked == false )
+			elment.style.display = "table-row";
+		else
+			elment.style.display = "none";
+
+		return true;
+	}
 	
 	function refresh(elem)
 	{
@@ -201,13 +211,11 @@ function ouvre_ferme(lien,identifiant)
 				
 		}
 
--->
 </script>
 <?PHP
 
 		include_once('maj_stats_w5.inc.php');
 		require_once("sql.php");
-
 		connect();
 
 		$stmt = "SELECT sens_tri, filtre_reussite, filtre_gain, affich_enf, affich_abo, affich_nor, affich_dif, affich_mon, affich_inf, fuseau_min, fuseau_max, affich_villes, affich_habille, affich_primes, filtre_inferno, ouvr_fenetre, timezone
@@ -423,7 +431,6 @@ function ouvre_ferme(lien,identifiant)
 		
 		 function calcul_esperance_gain($contracts, $monsters)
 		 {
-		 		global $debug;
 		 	
 		 		$total = 0;
 	 			foreach( $monsters as $monstre )
@@ -953,5 +960,4 @@ function meilleur_contrat_par_monstre( &$reussiteContrats, $filtre_gain, $filtre
 				}
 		}
 }
-
-if($debug) echo "Mémoire consommée (step 0.6) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";                     
+                 

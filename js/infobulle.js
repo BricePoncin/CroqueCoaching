@@ -109,13 +109,18 @@ function showContractInfo(name, city, country,sadism, ugliness, power, greedines
 		showTooltip(text);
 }
 
-function showTooltip(text) {
-if (w3c||ie){
-laBulle = document.all ? document.all["bulle"] : document.getElementById ? document.getElementById("bulle") : ""
-laBulle.innerHTML = text; // fixe le texte dans l'infobulle
-laBulle.style.visibility = "visible"; // Si il est cachee (la verif n'est qu'une securite) on le rend visible.
-affiche = true;
-}
+function showTooltip(text)
+{
+	if (w3c||ie)
+	{
+		laBulle = document.all ? document.all["bulle"] : document.getElementById ? document.getElementById("bulle") : ""
+		if(laBulle)
+		{
+			laBulle.innerHTML = text; // fixe le texte dans l'infobulle
+			laBulle.style.visibility = "visible"; // Si il est cachee (la verif n'est qu'une securite) on le rend visible.
+			affiche = true;
+		}
+	}
 }
 function hideTooltip() {
 if (w3c||ie){

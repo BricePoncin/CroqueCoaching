@@ -26,22 +26,21 @@
 				{
 					$arInventaire=array();
 					
-						foreach($sxml->children() as $element)
+					foreach($sxml->children() as $element)
 				  	{
 				  		if ( $element->getName() == $tag )
 				  		{
-				  				$objet['id']=intval($element['id']);
-				  				if( substr($element['name'], 0, 7) == "Thermom" )
-				  						$objet['name']="Thermomètre";
-				  				else
-											$objet['name']=utf8_decode(strval($element['name']));
-									$objet['qty']=intval($element['qty']);
-									
-									$arInventaire[] = $objet;
+							$objet['id']=intval($element['id']);
+							if( substr($element['name'], 0, 7) == "Thermom" )
+								$objet['name']="Thermomètre";
+							else
+								$objet['name']=utf8_decode(strval($element['name']));
+							$objet['qty']=intval($element['qty']);
+						
+							$arInventaire[] = $objet;
 				  		}
-				      parseXML($element, $tag);
+						parseXML($element, $tag);
 				  	}
-				  	
 				  	return($arInventaire);
 				 }
 				 

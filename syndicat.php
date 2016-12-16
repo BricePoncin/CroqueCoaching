@@ -123,11 +123,13 @@ function array_sort($array, $on, $order=SORT_ASC)
 		/*************************/	
 		/*   Partie affichage    */
 		/*************************/	
-		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=1\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=1',600,450)\" class=\"lien_bouton\">Stats 1<sup>ière</sup> Guerre Syndicale</a>&nbsp;\n";
-		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=2\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=2',600,450)\" class=\"lien_bouton\">Stats 2<sup>ième</sup> Guerre Syndicale</a>&nbsp;\n";
-		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=3\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=3',600,450)\" class=\"lien_bouton\">Stats 3<sup>ième</sup> Guerre Syndicale</a>&nbsp;\n";
-		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=4\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=4',600,450)\" class=\"lien_bouton\">Stats 4<sup>ième</sup> Guerre Syndicale</a>&nbsp;\n";
-		echo "<a href=\"index.php?pg=sw5\" class=\"lien_bouton\">Stats 5<sup>ième</sup> Guerre Syndicale</a>&nbsp;\n";
+		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=1\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=1',600,450)\" class=\"lien_bouton\">Stats 1<sup>i&egrave;re</sup> Guerre Syndicale</a>&nbsp;\n";
+		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=2\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=2',600,450)\" class=\"lien_bouton\">Stats 2<sup>i&egrave;me</sup> Guerre Syndicale</a>&nbsp;\n";
+		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=3\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=3',600,450)\" class=\"lien_bouton\">Stats 3<sup>i&egrave;me</sup> Guerre Syndicale</a>&nbsp;\n";
+		echo "<a href=\"syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=4\"  onclick=\"return monPopNamaNi('syndic_stats_guerres.php?id=".$_SESSION['syndic_id']."&war=4',600,450)\" class=\"lien_bouton\">Stats 4<sup>i&egrave;me</sup> Guerre Syndicale</a>&nbsp;\n";
+		echo "<a href=\"index.php?pg=sw5\" class=\"lien_bouton\">Stats 5<sup>i&egrave;me</sup> Guerre Syndicale</a>&nbsp;\n";
+		
+		echo "<BR/><H2><center><a href=\"index.php?pg=warlog\" class=\"lien_bouton\">WARLOG</a></center></H2>\n";
 		
 		echo "<br/>\n";
 		echo "<div style=\"height: 480px;\">\n"; 
@@ -147,7 +149,7 @@ function array_sort($array, $on, $order=SORT_ASC)
 				case 3: $league="Ligue 3";break;
 				case 4: $league="Ligue 4";break;
 				}
-				echo "Votre syndicat est actuellement classé en ".$xml['mblPos']."<sup>e</sup> position de ".$league."<br/><div style=\"margin-top:10px;\"><a class=\"lien_bouton\" href=\"index.php?pg=lst_mbl\">Liste des matches</a></div>";
+				echo "Votre syndicat est actuellement class&eacute; en ".$xml['mblPos']."<sup>e</sup> position de ".$league."<br/><div style=\"margin-top:10px;\"><a class=\"lien_bouton\" href=\"index.php?pg=lst_mbl\">Liste des matches</a></div>";
 				
 				echo "<h3>Le tas d'ordures</h3>\n";
 				if( isset($xml['grosmiam']))
@@ -199,12 +201,12 @@ function array_sort($array, $on, $order=SORT_ASC)
 			{
 				?>
 				<div class="information">
-						Si vous voulez accéder aux statistiques du tas de votre syndicat, vous devez installer un script <a href="https://addons.mozilla.org/fr/firefox/addon/greasemonkey/">GreaseMonkey</a>.<BR/>
-						Ce script a été créé par <a href="http://www.boumbh.com/cm/">Boumbh</a>.<br/>
-						Pour l'installer, cliquez <a href="boumbh/cmmonstroapi.user.js">ICI</a>. Une fois le script installé, rendez-vous sur la page d'accueil de <a href="http://www.croquemonster.com/news">Croque Monster</a> où vous verrez une nouvelle icône bleue en haut à droite.<br/>
-						En cliquant sur cette icône, une fenêtre s'ouvrira qui vous invitera à mettre à jour le tas d'ordure.<br/>
-						La première exécution risque d'être assez longue. Si le script semble bloqué, rechargez la page d'accueil.<br/>
-						Si vous avez un problème, n'hésitez pas à me poser vos questions directement par <a href="http://www.croquemonster.com/mail/create?to=BlackTom">MP</a>.<br/>
+						Si vous voulez acc&eacute;der aux statistiques du tas de votre syndicat, vous devez installer un script <a href="https://addons.mozilla.org/fr/firefox/addon/greasemonkey/">GreaseMonkey</a>.<BR/>
+						Ce script a &eacute;t&eacute; cr&eacute;&eacute; par <a onclick="javascript(void); return false;">Boumbh</a>.<br/>
+						Pour l'installer, cliquez <a href="boumbh/cmmonstroapi.user.js">ICI</a>. Une fois le script install&eacute;, rendez-vous sur la page d'accueil de <a href="http://www.croquemonster.com/news">Croque Monster</a> o&ugrave; vous verrez une nouvelle ic&ocirc;ne bleue en haut &agrave; droite.<br/>
+						En cliquant sur cette ic&ocirc;ne, une fen&ecirc;tre s'ouvrira qui vous invitera &agrave; mettre &agrave; jour le tas d'ordure.<br/>
+						La premi&egrave;re ex&eacute;cution risque d'&ecirc;tre assez longue. Si le script semble bloqu&eacute;, rechargez la page d'accueil.<br/>
+						Si vous avez un probl&egrave;me, n'h&eacute;sitez pas &agrave; me poser vos questions directement par <a href="http://www.croquemonster.com/mail/create?to=BlackTom">MP</a>.<br/>
 				</div>	
 				<?PHP
 			}			

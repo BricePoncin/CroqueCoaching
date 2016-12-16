@@ -9,7 +9,7 @@
 				{
 						$news = $_POST['news'];
 						//$date = $_POST['date'];
-						$stmt1 = "UPDATE cm_news SET nw_text='".$news."' WHERE nw_date = '".$date."'";
+						$stmt1 = "UPDATE cm_news SET nw_text='".htmlentities(utf8_decode($news))."' WHERE nw_date = '".$date."'";
 						$stmt2 = "INSERT INTO cm_news (nw_text, nw_date) VALUES ('$news', '".$date."')";
 						
 						connect();

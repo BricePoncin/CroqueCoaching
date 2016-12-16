@@ -53,26 +53,42 @@ function fctPopNamaNi(e)
 }
 
 
-function monPopNamaNi(url,width,height, target)
+function monPopNamaNi(e, url,target)
 {
-		if (target==undefined) target = 'popup';
+	var width  = 300;
+	var height = 155;
+	
+	if (target==undefined) 
+		target = 'popup';
+	
+	if(target != 'popup')
+		return true;
+	
+	if (!ie5&&!ns6)
+		window.open(url,"","width=width,height=height,scrollbars=1");
+	else
+	{
+		var AObject = e
+		var posX = 0;
+		var posY = 0;		
 		
-		if(target != 'popup')
-				return true;
-		
-		if (!ie5&&!ns6)
-				window.open(url,"","width=width,height=height,scrollbars=1")
-		else
+		do
 		{
-				document.getElementById("popNamaNi").style.display=''
-				document.getElementById("popNamaNi").style.width=initialwidth=width+"px"
-				document.getElementById("popNamaNi").style.height=initialheight=height+"px"
-				document.getElementById("popNamaNi").style.left="30px"
-				document.getElementById("popNamaNi").style.top=ns6? window.pageYOffset*1+30+"px" : voirie().scrollTop*1+30+"px"
-				document.getElementById("NaMaNiPoP").src=url
+			posX += AObject.offsetLeft;
+			posY += AObject.offsetTop;
+			AObject = AObject.offsetParent;
 		}
-		
-		return false;
+		while( AObject != null );
+
+		document.getElementById("popNamaNi").style.display='';
+		document.getElementById("popNamaNi").style.width=initialwidth=width+"px";
+		document.getElementById("popNamaNi").style.height=initialheight=height+"px";
+		document.getElementById("popNamaNi").style.left=posX;
+		document.getElementById("popNamaNi").style.top=posY - height;
+		document.getElementById("NaMaNiPoP").src=url;
+	}
+	
+	return false;
 }
 function agggrandis()
 {

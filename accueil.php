@@ -26,7 +26,7 @@ disconnect();
 		else
 		{
 		?>
-	<div id="infos" style="width:45%;float: left;">
+	<div id="infos" style="width:45%; height: 580px; float: left;">
 			<table width="500" class="tab_accueil">
 					<tr><td><img src="images/stat_syndicat.gif"></td>
 							<td colspan="2"><span style="font-size: 1.2em;">Agence <strong><?PHP echo $xml['name'];?></strong> (<?PHP echo $xml ['days'];?> jours)</span></td></tr>
@@ -77,30 +77,24 @@ disconnect();
 		}
 ?>
 
-<table class="head_fixe" style="height: 400px; padding-left:15px; margin-left: 50%; border-left: 1px solid navy; width: 50%">
-<thead><tr><td>NEWS !!</td></tr></thead>
-<tbody><tr><td>
-<div id="news" style="padding-right:15px;margin-right:15px;">
+<div id="news" style="padding-right:15px;margin-right:15px; float: right; width: 50%; height: 580px;">
+<h2 style="align: center;">News !!</h2>
 <?PHP
-
-		$nom_jour_fr = array("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi");
-		$mois_fr = Array("", "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", 
-		        "septembre", "octobre", "novembre", "décembre");
-		// on extrait la date du jour
-		
-		foreach($arNews as $news)
-		{
-			$date = $news['nw_date'];
-			$arDate=explode('-', $date);
-			list($nom_jour, $jour, $mois, $annee) = explode('/', date("w/d/n/Y", mktime(0, 0, 0, $arDate[1], $arDate[2], $arDate[0])));
+			$nom_jour_fr = array("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi");
+			$mois_fr = Array("", "janvier", "f&eacute;vrier", "mars", "avril", "mai", "juin", "juillet", "ao&ucirc;t", 
+					"septembre", "octobre", "novembre", "d&eacute;cembre");
+			// on extrait la date du jour
 			
-			echo '<h3>'.$nom_jour_fr[$nom_jour].' '.$jour.' '.$mois_fr[$mois].' '.$annee.'</h3>'; 	
-			echo utf8_decode($news['nw_text']).'<BR/>';
-			
-			
-		}
+			foreach($arNews as $news)
+			{
+				$date = $news['nw_date'];
+				$arDate=explode('-', $date);
+				list($nom_jour, $jour, $mois, $annee) = explode('/', date("w/d/n/Y", mktime(0, 0, 0, $arDate[1], $arDate[2], $arDate[0])));
+				
+				echo '<h3>'.$nom_jour_fr[$nom_jour].' '.$jour.' '.$mois_fr[$mois].' '.$annee.'</h3>'; 	
+				echo utf8_decode($news['nw_text']).'<BR/>';
+				
+				
+			}
 ?>
-	</div>
-		 
-</td></tr><tbody>
-</table>
+</div>

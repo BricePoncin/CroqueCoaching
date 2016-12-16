@@ -1,5 +1,71 @@
+
+	<style type="text/css">
+	.outdiv { 
+			height: 155px; 
+			overflow: hidden; 
+			position: relative; 
+			width: 300px;
+			border:1px solid black;
+			} 
+
+	.iniframe { 
+			height: 658px; 
+			left: -798px; 
+			position: absolute; 
+			top: -393px; 
+			width: 1263px; 
+			border:1px solid red;
+			} 
+
+.onoffswitch {
+    position: relative; width: 32px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 16px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 16px; padding: 0; line-height: 16px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "";
+    padding-left: 10px;
+    background-color: #51DB11; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "";
+    padding-right: 10px;
+    background-color: #FF0000; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 16px; margin: 0px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 12px;
+    border: 2px solid #999999; border-radius: 16px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+	</style>
+
 <?PHP
-//	require_once("contrats.inc.php");
 
 /*************************************************/
 /*                                               */
@@ -23,12 +89,8 @@
 		   return FALSE;
 		} 
 
-if($debug) echo "Mémoire consommée (step 0.8) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";                     
-
 		maj_villes_a_point();
 		maj_stats_membres();
-
-if($debug) echo "Mémoire consommée (step 0.9.1) : ".(memory_get_usage() - $baseMemory)."<BR/>\n"; 		
 
 		$url = "http://www.croquemonster.com/api/contracts.xml?name=".$_SESSION['name'].";pass=".$_SESSION['cle_api'];
 		$xmlContracts = readXML( $url );
@@ -37,7 +99,6 @@ if($debug) echo "Mémoire consommée (step 0.9.1) : ".(memory_get_usage() - $baseM
 				echo $xmlContracts;
 				exit;
 		}
-if($debug) echo "Mémoire consommée (step 0.9.2) : ".(memory_get_usage() - $baseMemory)."<BR/>\n"; 		
 		$url = "http://www.croquemonster.com/api/monsters.xml?name=".$_SESSION['name'].";pass=".$_SESSION['cle_api'];
 		$xmlMonsters = readXML( $url );
 		if( substr($xmlMonsters, 0, 6)== "Erreur" )
@@ -46,7 +107,6 @@ if($debug) echo "Mémoire consommée (step 0.9.2) : ".(memory_get_usage() - $baseM
 				exit;
 		}
 
-if($debug) echo "Mémoire consommée (step 0.9.3) : ".(memory_get_usage() - $baseMemory)."<BR/>\n"; 		
 		$url = "http://www.croquemonster.com/api/cities.xml?name=".$_SESSION['name'].";pass=".$_SESSION['cle_api'];
 		$xmlCities = readXML( $url );
 		if( substr($xmlCities, 0, 6)== "Erreur" )
@@ -55,18 +115,9 @@ if($debug) echo "Mémoire consommée (step 0.9.3) : ".(memory_get_usage() - $baseM
 				exit;
 		}
 
-		if($debug) echo "Mémoire consommée (step 0.9) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";                     
 		$arVillesPoints=array();
 		if( isset($_SESSION['syndic_id']) )
 		{
-			/*
-				$temp=array();
-				select("SELECT distinct ville FROM cm_villes_syndic WHERE syndic_id = ".$_SESSION['syndic_id'], $temp);
-				foreach($temp as $row)
-					$arVillesPoints[]=$row['ville'];
-				unset($temp);
-			*/
-			
 				$url = "http://www.croquemonster.com/syndicate/domination.xml?id=".$_SESSION['syndic_id'];
 				$tmp = direct_get( $url, true );
 				try
@@ -75,13 +126,13 @@ if($debug) echo "Mémoire consommée (step 0.9.3) : ".(memory_get_usage() - $baseM
 				}
 				catch (Exception $e)
 				{
-						echo "Problème (".$e->getMessage()."), probablement dû à un passage de fuseau<BR/>Réessayez d'ici quelques minutes.<br/>\n";
-						echo "Si le problème persiste, signalez-le moi, merci !<br/>\n";
+						echo "Probl&egrave;me (".$e->getMessage()."), probablement dû &agrave; un passage de fuseau<BR/>R&eacute;essayez d'ici quelques minutes.<br/>\n";
+						echo "Si le probl&egrave;me persiste, signalez-le moi, merci !<br/>\n";
 						exit;
 				}
 				
 				$lst_villes = villes_a_point($data);
-		echo count($lst_villes)." villes à points<br>\n";
+		echo count($lst_villes)." villes &agrave; points<br>\n";
 				foreach( $lst_villes as $ville )
 				{
 						foreach( $xmlCities as $city )
@@ -93,9 +144,8 @@ if($debug) echo "Mémoire consommée (step 0.9.3) : ".(memory_get_usage() - $baseM
 						}
 				}
 		}	
-	echo count($arVillesPoints)." villes pas affichées<br>\n";	
+	echo count($arVillesPoints)." villes pas affich&eacute;es<br>\n";	
 		
-if($debug) echo "Mémoire consommée (step 0.9.4) : ".(memory_get_usage() - $baseMemory)."<BR/>\n"; 		
 		$accueil = direct_get( "http://www.croquemonster.com/news", true);
 		if( $accueil == false )
 		{
@@ -112,7 +162,6 @@ if($debug) echo "Mémoire consommée (step 0.9.4) : ".(memory_get_usage() - $baseM
 		unset($accueil);
 		unset($html);
 		
-if($debug) echo "Mémoire consommée (step 0.9.5) : ".(memory_get_usage() - $baseMemory)."<BR/>\n"; 				
 		if( isset($_SESSION['syndic_id']) )
 		{
 				$url = "http://www.croquemonster.com/api/syndicate.xml?id=".$_SESSION['syndic_id'].";user=".$_SESSION['name'].";pass=".$_SESSION['cle_api'];
@@ -129,11 +178,10 @@ if($debug) echo "Mémoire consommée (step 0.9.5) : ".(memory_get_usage() - $baseM
 					$arAgencies = agences($xmlSyndic);    
 				}
 		}
-		else		
-				$arAgencies = array();
+	else
+		$arAgencies = array();
 
 		unset($xmlSyndic);
-		
 		$arAgences=array();
 		
 		foreach( $arAgencies as $agence )
@@ -145,23 +193,17 @@ if($debug) echo "Mémoire consommée (step 0.9.5) : ".(memory_get_usage() - $baseM
 		$cities    = array();
 		$reussiteContrats=array();
 
-if($debug) echo "Mémoire consommée (step 1) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";                     
 		$reussiteContrats = process_contrats($xmlContracts, $xmlMonsters, $xmlCities, $contracts, $monsters, $gain_max_par_monstre);
 		
-if($debug) echo "Mémoire consommée (step 2) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";
 		meilleur_contrat_par_monstre( &$reussiteContrats, $filtre_gain, $filtre_reussite );
 
-if($debug) echo "Mémoire consommée (step 3) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";
 		$arContratsSpeciaux = list_contrats_speciaux( $contracts );
 
-if($debug) echo "Mémoire consommée (step 4) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";
 		$espeGains = calcul_esperance_gain($contracts, $monsters);
 
-if($debug) echo "Mémoire consommée (step 5) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";
 		$arVilles = list_villes( $contracts );
-		
-if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemory)."<BR/>\n";
 ?>
+		
 <div style="display: block;float: left; margin-left: 20%; width:80%;">
 		<form name="frm_filtres" action="index.php?pg=contrats" method="POST">
 				<div>
@@ -172,8 +214,8 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 																		style="border: 1px solid black; background-color: #EEEEEE; font-weight: bold; padding: 5px; margin: 10px 0;">Valider</a>
 									</span>
 										<br/><form name="frm_affich" id="frm_affich" action="SELF" method="POST">
-												<input type="radio" name="affich" value="ville_a_points"    OnClick="javascript:refresh('ville_a_points');" checked="checked">Afficher les villes intoxiquées<BR>
-												<input type="radio" name="affich" value="ville_sans_point"  OnClick="javascript:refresh('ville_sans_point');">Masquer les villes intoxiquées<BR>
+												<input type="radio" name="affich" value="ville_a_points"    OnClick="javascript:refresh('ville_a_points');" checked="checked">Afficher les villes intoxiqu&eacute;es<BR>
+												<input type="radio" name="affich" value="ville_sans_point"  OnClick="javascript:refresh('ville_sans_point');">Masquer les villes intoxiqu&eacute;es<BR>
 												
 										</form>
 										
@@ -184,7 +226,7 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 									<table class="preferences">
 											<tr><th>Probabilit&eacute; de r&eacute;ussite (%) minimum :&nbsp;</th><td><input size="6" type="text" name="filtre_reussite" value="<?PHP echo $filtre_reussite; ?>"></td></tr>
 											<tr><th>Gains minimum (prime comprise) :&nbsp;</th><td><input size="6"  type="text" name="filtre_gain" value="<?PHP echo $filtre_gain; ?>"></td></tr>
-											<tr><th>Forcer l'affichage des contrats dont l'inferno est d'au moins :&nbsp;</th><td><input size="3"  type="text" name="filtre_inferno" value="<?PHP echo $filtre_inferno; ?>"> (0, pas d'affichage forcé)</td></tr>
+											<tr><th>Forcer l'affichage des contrats dont l'inferno est d'au moins :&nbsp;</th><td><input size="3"  type="text" name="filtre_inferno" value="<?PHP echo $filtre_inferno; ?>"> (0, pas d'affichage forc&eacute;)</td></tr>
 											
 											<tr><th><div class="ouvre_ferme"  style="border:1px;">
 															Niveau de difficult&eacute; &agrave; afficher&nbsp;<a href="#" id="ouv_ferm1" onclick="javascript:ouvre_ferme('ouv_ferm1','choix_difficulte');">(+)</a> :&nbsp;</th>
@@ -201,11 +243,11 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 															</div>
 													</td></tr>
 											<!--
-											<tr><th>Afficher les contrats des villes "intoxiquées" :&nbsp;</th><td>
+											<tr><th>Afficher les contrats des villes "intoxiqu&eacute;es" :&nbsp;</th><td>
 													<input type="radio" name="affich_villes" value="oui" <?PHP if ($affich_ville=="oui") echo "checked"; ?>>Oui<br/>
 													<input type="radio" name="affich_villes" value="non" <?PHP if ($affich_ville=="non") echo "checked"; ?>>Non</td></tr>
 											-->									
-											<tr><th>Afficher le pourcentage de réussite du monstre avec les équipements supplémentaires requis :&nbsp;</th><td>
+											<tr><th>Afficher le pourcentage de r&eacute;ussite du monstre avec les &eacute;quipements suppl&eacute;mentaires requis :&nbsp;</th><td>
 													<input type="radio" name="affich_habille" value="oui" <?PHP if ($affich_habille=="oui") echo "checked"; ?>>Oui<br/>
 													<input type="radio" name="affich_habille" value="non" <?PHP if ($affich_habille=="non") echo "checked"; ?>>Non</td></tr>
 											
@@ -218,7 +260,7 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 													<input type="radio" name="tri" value="chrono" <?PHP if ($sens_tri=="chrono") echo "checked"; ?>>&nbsp;Fuseau / Gain / Inferno <br/>
 													<input type="radio" name="tri" value="inferno" <?PHP if ($sens_tri=="inferno") echo "checked"; ?>>&nbsp;Inferno / Fuseau / Gain
 													</td></tr>
-											<tr><th>Préférence d'ouverture des fenêtres CM</th><td><select name="ouvr_fenetre">
+											<tr><th>Pr&eacute;f&eacute;rence d'ouverture des fenêtres CM</th><td><select name="ouvr_fenetre">
 														<option value='popup' <?PHP if ($ouvr_fenetre=='popup') echo "selected=\"selected\""; ?>>popup</option>
 														<option value='cm' <?PHP if ($ouvr_fenetre=='cm') echo "selected=\"selected\""; ?>>onglet ou fenêtre unique</option>
 														<option value='_blank' <?PHP if ($ouvr_fenetre=='_blank') echo "selected=\"selected\""; ?>>nouvel onglet ou fenêtre</option>
@@ -244,8 +286,6 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 																		style="border: 1px solid black; background-color: #EEEEEE; font-weight: bold; padding: 5px; margin: 10px 0;">Valider</a>
 													</div>
 													</td></tr>
-
-											
 									</table>
 							</div>
 					</div>
@@ -261,7 +301,7 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 		-->
 		<div style="float: left; width: 19%;">
 				<div style="border: 2px outset #c0c0c0; color: black; padding: 5px;">
-						Espérance de gain pour les prochaines 24 heures :<br/><strong><?PHP echo number_format($espeGains, 0, ".", " "); ?></strong>&nbsp;<img src="images/miniMoney.gif">
+						Esp&eacute;rance de gain pour les prochaines 24 heures :<br/><strong><?PHP echo number_format($espeGains, 0, ".", " "); ?></strong>&nbsp;<img src="images/miniMoney.gif">
 				</div>
 				<div id="contrats_spe" style="border-bottom: 5px double black; padding-bottom: 10px;">
 						<h3>Contrats sp&eacute;ciaux :</h3>
@@ -279,7 +319,21 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 								echo "<table style=\"width: 200px\">\n";
 								foreach($arContratsSpeciaux as $cs)
 								{
-										echo "\t<tr><td style=\"text-align:left;width:150px\"><a href=\"#".$cs."\"><img src=\"images/".$contracts[ $cs ]['ico']."\">&nbsp;".$contracts[ $cs ]['city']."</a></td><td><small>".date("H:i:s", mktime(0, 0, $contracts[ $cs ]['countdown']))."</small></td></tr>\n";
+									?>
+										<tr>
+											<td style="text-align:left;width:150px"><a href="<?PHP echo "#".$cs; ?>" ><img src="<?PHP echo "images/".$contracts[ $cs ]['ico'];?>" >&nbsp;<?PHP echo $contracts[ $cs ]['city']; ?></a></td>
+											<td><small><?PHP echo date("H:i:s", mktime(0, 0, $contracts[ $cs ]['countdown'])); ?></small></td>
+											<td><!-- Rounded switch -->
+												<div class="onoffswitch">
+													<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="swch<?PHP echo $cs;?>" checked onClick="javascript:show_hide_contract(this, '<?PHP echo $cs;?>');">
+													<label class="onoffswitch-label" for="swch<?PHP echo $cs;?>">
+														<span class="onoffswitch-inner"></span>
+														<span class="onoffswitch-switch"></span>
+													</label>
+												</div>
+											</td>
+										</tr>
+									<?PHP
 								}
 								echo "</table>\n";
 						}
@@ -287,24 +341,24 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 				</div>
 				<div id="infos_contrat" class="hidden" style="padding-top: 10px;"></div>
 		</div>
-		
 <?PHP
 		//
 		// Affichage de l'entête de la table
 		//
-		echo "<table id=\"aide_contrats\" class=\"head_fixe\" style=\"width:80%\">\n";
-		echo "<thead>\n";
-		echo "<form name=\"frm_filtres_tab\" action=\"index.php?pg=contrats\" method=\"POST\">";
-		echo "<input type=\"hidden\" name=\"maj_tab\" value=\"1\">";
-		echo "<input type=\"hidden\" id=\"tri_tab\" name=\"tri\" value=\"\">";
-		
-		echo "\t<tr><td>   <a  onClick=\"document.getElementById('tri_tab').value='special'  ;document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par \"special\", puis gain, puis inferno, puis timezone');\" onMouseOut=\"javascript:hideTooltip();\"><img src=\"images/city_default.png\"></a></td><td>";
-		echo "   <a  onClick=\"document.getElementById('tri_tab').value='gain'  ;document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par gain, puis inferno, puis timezone');\" onMouseOut=\"javascript:hideTooltip();\"><img src=\"images/miniMoney.gif\"></a> / ";
-		echo "   <a  onClick=\"document.getElementById('tri_tab').value='chrono';document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par timezone, puis gain, puis inferno');\" onMouseOut=\"javascript:hideTooltip();\"><img src=\"images/time.gif\"></a>";
-		echo "</td>";
-		echo "<td><a  onClick=\"document.getElementById('tri_tab').value='inferno';document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par inferno, puis gain, puis timezone');\" onMouseOut=\"javascript:hideTooltip();\"><img src=\"images/finferno.png\"></a></td>";
-		echo "\n";
-		echo "</form>\n";
+?>
+		<table id="aide_contrats" class="head_fixe" style="width:80%">
+			<thead>
+				<form name="frm_filtres_tab" action="index.php?pg=contrats" method="POST">
+				<input type="hidden" name="maj_tab" value="1">
+				<input type="hidden" id="tri_tab" name="tri" value="">
+				<tr>
+					<th><a onClick="document.getElementById('tri_tab').value='special';document.forms['frm_filtres_tab'].submit();" onMouseOver="javascript:showTooltip('Trier par \'special\', puis gain, puis timezone, puis inferno');" onMouseOut="javascript:hideTooltip();"><img src="images/city_default.png"></a></th>
+					<th><a onClick="document.getElementById('tri_tab').value='gain'   ;document.forms['frm_filtres_tab'].submit();" onMouseOver="javascript:showTooltip('Trier par gain, puis inferno, puis timezone');" 				   onMouseOut="javascript:hideTooltip();"><img src="images/miniMoney.gif"></a> /
+						<a onClick="document.getElementById('tri_tab').value='chrono' ;document.forms['frm_filtres_tab'].submit();" onMouseOver="javascript:showTooltip('Trier par timezone, puis gain, puis inferno');"                   onMouseOut="javascript:hideTooltip();"><img src="images/time.gif"></a>
+					</th>
+					<th><a onClick="document.getElementById('tri_tab').value='inferno';document.forms['frm_filtres_tab'].submit();" onMouseOver="javascript:showTooltip('Trier par inferno, puis gain, puis timezone');"                   onMouseOut="javascript:hideTooltip();"><img src="images/finferno.png"></a></th>
+				</form>
+<?PHP
 		$nbCasesParLigne = count($monsters)+4;
 
 		foreach($monsters as $idx => $monstre)
@@ -343,10 +397,31 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 				 .", ".$monstre['bounty']
 				 .", ".$monstre['fatigue']
 				 .", '".$occupation."');\""
-				 ." onMouseOut=\"javascript:hideTooltip();\"><a  onClick=\"document.getElementById('tri_tab').value='mstr".$monstre['id']."';document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par faisabilité (par <b>".$monstre['name']."</b>) puis gain, puis timezone, puis inferno');\" onMouseOut=\"javascript:hideTooltip();\">".$monstre['name']."</a></div></th>\n";
+				 ." onMouseOut=\"javascript:hideTooltip();\"><a  onClick=\"document.getElementById('tri_tab').value='mstr".$monstre['id']."';document.forms['frm_filtres_tab'].submit();\" onMouseOver=\"javascript:showTooltip('Trier par faisabilit&eacute; (par <b>".$monstre['name']."</b>) puis gain, puis timezone, puis inferno');\" onMouseOut=\"javascript:hideTooltip();\">".$monstre['name']."</a></div></th>\n";
 		}
 		echo "\t</tr>\n</thead>\n";		
+?>
+				<tfoot>
+				<tr>
+					<th><img src="images/city_default.png" /></th>
+					<th><img src="images/miniMoney.gif" /> / <img src="images/time.gif" /></th>
+					<th><img src="images/finferno.png" /></th>
 		
+<?PHP
+		$nbCasesParLigne = count($monsters)+4;
+
+		foreach($monsters as $idx => $monstre)
+		{
+			?>
+					<th>
+						<?PHP echo $monstre['name']; ?>
+					</th>
+			<?PHP
+		}
+?>
+			</tr>
+		</tfoot>
+<?PHP		
 		echo "<tbody>";
 
 
@@ -387,9 +462,9 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 		else if ( $sens_tri == "chrono" )
 				array_multisort($chrono, SORT_ASC, $gain, SORT_DESC, $inferno, SORT_DESC, $kind, SORT_DESC, $contracts);
 		else if ( $sens_tri == "gain" )
-				array_multisort($gain, SORT_DESC, $chrono, SORT_ASC, $inferno, SORT_DESC, $kind, SORT_DESC, $contracts);
+				array_multisort($gain   , SORT_DESC, $chrono, SORT_ASC , $inferno, SORT_DESC, $kind, SORT_DESC, $contracts);
 		else if ( $sens_tri == "inferno" )
-				array_multisort($inferno, SORT_DESC, $gain, SORT_DESC, $chrono, SORT_ASC, $kind, SORT_DESC, $contracts);
+				array_multisort($inferno, SORT_DESC, $chrono, SORT_ASC , $gain   , SORT_DESC, $kind, SORT_DESC, $contracts);
 		else if ( $sens_tri == "kind" )
 				array_multisort($kind, SORT_DESC, $gain, SORT_DESC, $inferno, SORT_DESC, $chrono, SORT_ASC, $contracts);
 
@@ -400,15 +475,10 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 				$fuseau_rel = intval(date("H", mktime(0, 0, $line['countdown'])));
 				if( (($fuseau_rel < $fuseau_min) || ($fuseau_rel > $fuseau_max )) && ($line['city'] != $_SESSION['ville_prout']) )
 						continue;
-				/*
-				if( ($affich_ville == "non") && (in_array( utf8_encode($line['city']), $arVillesPoints) === true) && ($line['city'] != $_SESSION['ville_prout']) )
-				{
-					//echo "Ville pas affichée : ".$line['city']."<br/>\n";
-								continue;
-				}	
-				*/	
+				
 				$icon_special = "<img src=\"images/city_default.png\">";
-			  if( isset($line['ico']) )
+				
+				if( isset($line['ico']) )
 			 	{
 			 		 	$icon_special = "<img src=\"images/".$line['ico']."\">";
 			 	}
@@ -479,9 +549,9 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 				$d->modify('+'.($m+1).' min' );
 		 		$d->modify('+'.$h.' hour' );
 				 
-				//echo "  après : ".$d->format('H:i')."<br/>\n";
+				//echo "  apr&egrave;s : ".$d->format('H:i')."<br/>\n";
 				
-				echo "\t<tr$ligne_class><th $th><a name=\"".$line['id']."\"></a>".$icon_special."<img src=\"images/contract".$line['kind'].".gif\"></th>"
+				echo "\t<tr id=\"$cid\" $ligne_class><th $th><a name=\"".$line['id']."\"></a>".$icon_special."<img src=\"images/contract".$line['kind'].".gif\"></th>"
 				."<th $th>".$line['prize']."&nbsp;<img src=\"images/miniMoney.gif\"><br/><small>".date("H:i", mktime(0, 0, $line['countdown']))."(".$d->format('H:i').")</small></th>";
 						
 /*				echo "<th $th>".date("H:i:s", mktime(0, 0, $line['countdown']))."</th>\n";*/
@@ -492,19 +562,19 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 				$idx=0;
 				foreach( $resLine as $mid => $case )
 				{
-					$attributs = " onMouseOver=\"javascript:showTooltip('Gain prime déduite : ".$case['gain'];
+					$attributs = " onMouseOver=\"javascript:showTooltip('Gain prime d&eacute;duite : ".$case['gain'];
 
 					$case['gain_eq'] = $case['gain'];
 					if( isset($case['equip_a_installer']))
 					{
-							$attributs = $attributs."<BR/><b>Equipements à installer :</b>";
+							$attributs = $attributs."<BR/><b>Equipements &agrave; installer :</b>";
 							foreach($case['equip_a_installer'] as $cle => $a_equiper)
 							{
 										$attributs = $attributs."<br/>".addslashes($liste_equipements[$cle]['name']);
 										$case['gain_eq'] -= $liste_equipements[$cle]['prix'];
 							}
 					}
-					$attributs = $attributs."<BR/><b>Gain prime et équipements d&eacute;duits : ".$case['gain_eq']."</b>');\" onMouseOut=\"hideTooltip();\"";			
+					$attributs = $attributs."<BR/><b>Gain prime et &eacute;quipements d&eacute;duits : ".$case['gain_eq']."</b>');\" onMouseOut=\"hideTooltip();\"";			
 					
 					if( $case['gain_eq'] < 0 )
 					$case['gain_eq'] = "<span style=\"color: red;\">".$case['gain_eq']."</span>";
@@ -546,13 +616,13 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 					  if ($class != "")
 					  	$class=" class=\"".$class."\"";
 					
-					  // On affiche toujours le % de reussite des spéciaux !!	
+					  // On affiche toujours le % de reussite des sp&eacute;ciaux !!	
 					  if( ( in_array( $line['id'], $arContratsSpeciaux ) === true )
 					   || (( $line['inferno'] >= $filtre_inferno ) && ($filtre_inferno != 0))
 					   || (in_array($line['city'], $filtre_ville ) === true)
 					   || ($line['city'] == $_SESSION['ville_prout']) )
 					  {
-								echo "\t\t<td$class onmouseover=\"$infos\"><a $target href=\"$lien\" onclick=\"return monPopNamaNi(this.href, 950, 600, '".$ouvr_fenetre."');\" $attributs>";
+								echo "\t\t<td$class onmouseover=\"$infos\"><a $target href=\"$lien\" onclick=\"return monPopNamaNi(this, this.href, '".$ouvr_fenetre."');\" $attributs>";
 								if( $affich_habille == 'oui' )
 								{
 									
@@ -594,7 +664,7 @@ if($debug) echo "Mémoire consommée (step 6) : ".(memory_get_usage() - $baseMemor
 						}
 						else
 						{
-								echo "\t\t<td$class onmouseover=\"$infos\"><a $target href=\"$lien\" onclick=\"return monPopNamaNi(this.href, 950, 600, '".$ouvr_fenetre."');\" $attributs>";
+								echo "\t\t<td$class onmouseover=\"$infos\"><a $target href=\"$lien\" onclick=\"return monPopNamaNi(this, this.href, '".$ouvr_fenetre."');\" $attributs>";
 								if( $affich_habille == 'oui' )
 								{
 									

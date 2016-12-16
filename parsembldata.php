@@ -245,7 +245,7 @@ $arDirs['Down']="le bas";
 		echo "</td><td style=\"width:30%;vertical-align:top;\">";
 
 			
-				echo "<table  border=\"0\" class=\"head_fixe\" style=\"width: 100%; height: 100%;\">";
+				echo "<table  border=\"0\" class=\"head_fixe\" style=\"width: 100%; height: 100%;\" id=\"mbl_actions\">";
 				echo "<thead style=\"height:75px\">"
 						."<tr><th>Match entre les <a href=\"http://www.croquemonster.com/syndicate/view?id=" . $mbl_data_object['team1']['id'] . ";\">" . urldecode($mbl_data_object['team1']['name']) . "</a> et les <a href=\"http://www.croquemonster.com/syndicate/view?id=" . $mbl_data_object['team2']['id'] . ";\">" . urldecode($mbl_data_object['team2']['name']) . "</a>.</th></tr>"
 						."</thead>";

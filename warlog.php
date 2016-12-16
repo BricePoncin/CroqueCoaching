@@ -2,9 +2,10 @@
 
 		function warlog($sxml)
 		{
-		  //Acc&egrave;s aux enfants de l'&eacute;l&eacute;ment courant
-		  foreach($sxml->children() as $element)
-		  {
+			$arAgencies = array();
+			//Acc&egrave;s aux enfants de l'&eacute;l&eacute;ment courant
+			foreach($sxml->children() as $element)
+			{
 		  		if ( $element->getName() == "log" )
 		  		{
 		  				$agency['stolen']=strval($element['stolen']);
@@ -20,7 +21,7 @@
 							$arAgencies[] = $agency;
 		  		}
 		      warlog($element);
-		  }
+			}
 			return ($arAgencies);
 		}
 
@@ -75,73 +76,90 @@
 				$arWarlogs = warlog($xml);
 				
 				//print_r($arWarlogs);
-				
-				echo "<table border=\"1\">";
-				echo "<tr><th>Date</th><th>Syndic Attaquant</th><th>Attaquant</th><th>Syndic Defenseur</th><th>Defenseur</th><th>Type d'attaque</th><th>Points perdus (def)</th><th>Points volés (att)</th><th>Ville ciblée</th></tr>";
+?>
+				<table id="tab_defenses">
+				<thead>
+					<tr>
+						<th>Date</th><th>Syndic Attaquant</th><th>Attaquant</th><th>Syndic Defenseur</th><th>Defenseur</th><th>Type d'attaque</th><th>Points perdus (def)</th><th>Points vol&eacute;s (att)</th><th>Ville cibl&eacute;e</th>
+					</tr>
+				</thead>
+				<tbody>
+<?PHP
 				$totalPerte =0;
 				$totalVol =0;
 				foreach($arWarlogs as $warlog)
 				{
-						if( ( !isset($arSyndic[$warlog['attSyndId']]) ) && ( $warlog['attSyndId']>0 ) )
-						{
-								$url = "http://www.croquemonster.com/api/syndicate.xml?id=".$warlog['attSyndId'];
-								$xml = readXML( $url );
-								if( substr($xml, 0, 6)== "Erreur" )
-										$arSyndic[$warlog['attSyndId']] = "Syndic disparu";
-								else
-										$arSyndic[$warlog['attSyndId']] = utf8_decode($xml['name']);
-						}
+					if( ( !isset($arSyndic[$warlog['attSyndId']]) ) && ( $warlog['attSyndId']>0 ) )
+					{
+						$url = "http://www.croquemonster.com/api/syndicate.xml?id=".$warlog['attSyndId'];
+						$xml = readXML( $url );
+						if( substr($xml, 0, 6)== "Erreur" )
+								$arSyndic[$warlog['attSyndId']] = "Syndic disparu";
+						else
+								$arSyndic[$warlog['attSyndId']] = utf8_decode($xml['name']);
+					}
 
-						if( ( !isset($arSyndic[$warlog['defSyndId']]) ) && ( $warlog['defSyndId']>0 ) )
-						{
-								$url = "http://www.croquemonster.com/api/syndicate.xml?id=".$warlog['defSyndId'];
-								$xml = readXML( $url );
-								if( substr($xml, 0, 6)== "Erreur" )
-										$arSyndic[$warlog['defSyndId']] = "Syndic disparu";
-								else
-										$arSyndic[$warlog['defSyndId']] = utf8_decode($xml['name']);
+					if( ( !isset($arSyndic[$warlog['defSyndId']]) ) && ( $warlog['defSyndId']>0 ) )
+					{
+						$url = "http://www.croquemonster.com/api/syndicate.xml?id=".$warlog['defSyndId'];
+						$xml = readXML( $url );
+						if( substr($xml, 0, 6)== "Erreur" )
+								$arSyndic[$warlog['defSyndId']] = "Syndic disparu";
+						else
+								$arSyndic[$warlog['defSyndId']] = utf8_decode($xml['name']);
 
-						}
-						if( ( !isset($arUser[$warlog['attUserId']]) ) && ( $warlog['attUserId']>0 ) )
-						{
-								$url = "http://www.croquemonster.com/api/agency.xml?id=".$warlog['attUserId'];
-								$xml = readXML( $url );
-								if( substr($xml, 0, 6)== "Erreur" )
-										$arUser[$warlog['attUserId']] = "Agence disparue";
-								else
-										$arUser[$warlog['attUserId']] = utf8_decode($xml['name']);
-						}
-						
-						if( ( !isset($arUser[$warlog['defUserId']]) ) && ( $warlog['defUserId']>0 ) )
-						{
-								$url = "http://www.croquemonster.com/api/agency.xml?id=".$warlog['defUserId'];
-								$xml = readXML( $url );
-								if( substr($xml, 0, 6)== "Erreur" )
-										$arUser[$warlog['defUserId']] = "Agence disparue";
-								else
-										$arUser[$warlog['defUserId']] = utf8_decode($xml['name']);
-						}
-						
-						switch ($warlog['kind'])
-						{
+					}
+					if( ( !isset($arUser[$warlog['attUserId']]) ) && ( $warlog['attUserId']>0 ) )
+					{
+						$url = "http://www.croquemonster.com/api/agency.xml?id=".$warlog['attUserId'];
+						$xml = readXML( $url );
+						if( substr($xml, 0, 6)== "Erreur" )
+							$arUser[$warlog['attUserId']] = "Agence disparue";
+						else
+							$arUser[$warlog['attUserId']] = utf8_decode($xml['name']);
+					}
+					
+					if( ( !isset($arUser[$warlog['defUserId']]) ) && ( $warlog['defUserId']>0 ) )
+					{
+						$url = "http://www.croquemonster.com/api/agency.xml?id=".$warlog['defUserId'];
+						$xml = readXML( $url );
+						if( substr($xml, 0, 6)== "Erreur" )
+							$arUser[$warlog['defUserId']] = "Agence disparue";
+						else
+							$arUser[$warlog['defUserId']] = utf8_decode($xml['name']);
+					}
+					
+					switch ($warlog['kind'])
+					{
 						case 0: $strKind="racket";      break;
 						case 1: $strKind="sabotage";    break;
 						case 2: $strKind="diminution";  break;
 						case 3: $strKind="vol";         break;
 						case 4: $strKind="propagande";  break;
-						case 5: $strKind="racket raté";	break;
-						}
-						
-						
-						echo "<tr><td>".$warlog['date']."</td><td>".$arSyndic[$warlog['attSyndId']]."</td><td>".$arUser[$warlog['attUserId']]."</td><td>".$arSyndic[$warlog['defSyndId']]."</td><td>".$arUser[$warlog['defUserId']]."</td><td>".$strKind."</td><td>".$warlog['points']."</td><td>".$warlog['stolen']."</td><td>".$arVilles[ $warlog['cityId'] ]['name']." ( ".$arVilles[ $warlog['cityId'] ]['country']." ) "."</td></tr>";
-				
-						$totalPerte += $warlog['points'];
-						$totalVol += $warlog['stolen'];
+						case 5: $strKind="racket rat&eacute;";	break;
+					}
+					
+					
+					echo "<tr><td>".$warlog['date']."</td><td>".$arSyndic[$warlog['attSyndId']]."</td><td>".$arUser[$warlog['attUserId']]."</td><td>".$arSyndic[$warlog['defSyndId']]."</td><td>".$arUser[$warlog['defUserId']]."</td><td>".$strKind."</td><td>".$warlog['points']."</td><td>".$warlog['stolen']."</td><td>".$arVilles[ $warlog['cityId'] ]['name']." ( ".$arVilles[ $warlog['cityId'] ]['country']." ) "."</td></tr>";
+			
+					$totalPerte += $warlog['points'];
+					$totalVol += $warlog['stolen'];
 				}
-						echo "<tr><th colspan=\"6\"</th><th>".$totalPerte."</th><th>".$totalVol."</th><th>&nbsp;</th></tr>";
-			//	echo "</table>";
+?>
+				</tbody>
+				<tfoot>
+					<tr><th colspan="6"</th><th><?PHP echo $totalPerte; ?></th><th><?PHP echo $totalVol; ?></th><th>&nbsp;</th></tr>
+				</tfoot>
+			</table>
 				
-				
+			<table id="tab_attaques">
+				<thead>
+					<tr>
+						<th>Date</th><th>Syndic Attaquant</th><th>Attaquant</th><th>Syndic Defenseur</th><th>Defenseur</th><th>Type d'attaque</th><th>Points perdus (def)</th><th>Points vol&eacute;s (att)</th><th>Ville cibl&eacute;e</th>
+					</tr>
+				</thead>
+				<tbody>
+<?PHP				
 				$warlogUrl = "http://www.croquemonster.com/api/warlog.xml?attSyndId=".$_SESSION['syndic_id'];
 				
 				$xml = readXML( $warlogUrl );
@@ -152,15 +170,8 @@
 				}
 				
 				$arWarlogs = array();
-							
 				$arWarlogs = warlog($xml);
 				
-				//print_r($arWarlogs);
-				
-				echo "<tr><td colspan=\"9\">&nbsp;</td></tr>";
-				echo "<tr><td colspan=\"9\">&nbsp;</td></tr>";
-				//echo "<table border=\"1\">";
-				echo "<tr><th>Date</th><th>Syndic Attaquant</th><th>Attaquant</th><th>Syndic Defenseur</th><th>Defenseur</th><th>Type d'attaque</th><th>Points perdus (def)</th><th>Points volés (att)</th><th>Ville ciblée</th></tr>";
 				$totalPerte =0;
 				$totalVol =0;
 				foreach($arWarlogs as $warlog)
@@ -212,7 +223,7 @@
 						case 2: $strKind="diminution";  break;
 						case 3: $strKind="vol";         break;
 						case 4: $strKind="propagande";  break;
-						case 5: $strKind="racket raté";	break;
+						case 5: $strKind="racket rat&eacute;";	break;
 						}
 						
 						
@@ -221,9 +232,13 @@
 						$totalPerte += $warlog['points'];
 						$totalVol += $warlog['stolen'];
 				}
-				echo "<tr><th colspan=\"6\"</th><th>".$totalPerte."</th><th>".$totalVol."</th><th>&nbsp;</th></tr>";
-				echo "</table>";
-				
+?>
+				</tbody>
+				<tfoot>
+					<tr><th colspan="6"</th><th><?PHP echo $totalPerte; ?></th><th><?PHP echo $totalVol; ?></th><th>&nbsp;</th></tr>
+				</tfoot>
+			</table>
+<?PHP
 	
 		}	
 

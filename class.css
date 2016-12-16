@@ -231,7 +231,7 @@ strong {
 
 /* Navigation */
 #navigation {
-	background: #181A12;
+	/*background: #181A12;*/
 }
 #navigation form {
 	color: #FF6533;
@@ -240,7 +240,7 @@ strong {
 	color: #FF6533;
 }
 #navigation a:hover, #navigation a:focus {
-	background: #000000;
+	color: #AA6533;
 }
 
 /* Contenu principal */
@@ -285,32 +285,69 @@ body {
 
 /* Menu de navigation */
 #navigation {
-	/*width: 18%;*/
-	height: 30px;
-	padding-top: 5px;
-	/*float: left; /* -> 2 */
+	padding:0;
+	margin:0;
+	list-style:none;
+	text-align: center;
+	width: 180px;
 }
 #navigation ul {
-	margin: 0;
-/*	padding: 20px 10px;*/
-	list-style: none;
-	
+	position: absolute;
+	z-index: 1000;
+	padding:0;
+	margin:0;
+	list-style:none;
+	text-align: center;
 }
-#navigation form {display: inline;}
 #navigation li {
-		display: inline ;
+	position: relative;
+	background-color:#729EBF; 
+	background-image:-webkit-linear-gradient(top, #729EBF 0%, #333A40 100%);
+	background-image: linear-gradient(to bottom, #729EBF 0%, #333A40 100%);
+	border-radius: 6px;
+	margin-bottom:2px;
+	box-shadow: 3px 3px 3px #999;
+	border:solid 1px #333A40
 }
+	
+#navigation li li {
+	max-height:0;
+	overflow: hidden;
+	transition: all .5s;
+	border-radius:0;
+	background: #444;
+	box-shadow: none;
+	border:none;
+	margin:0;
+}	
+	
 #navigation a {
-	/*display: block;*/
-	height: 1%; /* -> 3 */
-	/*padding: 6px 6px 6px 10px;*/
-margin: 0 2px;
-padding: 5px 15px;
-
-	line-height: 1.5;
-	font-size: .9em;
+	display:block;
 	text-decoration: none;
+	color: #fff;
+	padding: 8px 0;
+	font-family: verdana;
+	font-size:1.2em
 }
+
+#navigation ul li a, #navigation li:hover li a {
+  font-size:1em
+}
+#navigation li:hover {
+   background: #729EBF
+}
+#navigation li li:hover {
+   background: #999;
+}
+#navigation ul li:last-child {
+   border-radius: 0 0 6px 6px;
+   border:none;
+}
+#navigation li:hover li {
+  max-height: 15em;
+}
+
+
 
 /* Contenu */
 #contenu {
@@ -431,38 +468,26 @@ table#portails{width: 90%;}
 tr.direct td{ font-weight: bold;}
 tr.indirect td{ font-weight: bold; color: grey; font-style: italic;}
 
-table.head_fixe {width: 90%;}
-table.head_fixe thead {
-   height: 50px;     /* Hauteur de tes entêtes */
-}
+table.head_fixe {width: 100%; margin:5px;}
+table.head_fixe tr th.data    {width: 90px; margin:2px;}
+table.head_fixe tr th.monstre {width: 120px; margin:2px;}
+table.head_fixe tr td.data    {width: 90px; margin:2px;}
+table.head_fixe tr td.monstre {width: 120px; margin:2px;}
 
-table.head_fixe tbody {
-   height: 650px;     /* Hauteur du reste des données */
-   overflow-y: visible;     /* Ton scroll vertical */
-   overflow-x:hidden; /* Scroll horizontal caché */
-}
-
-table.head_fixe .last_col {
-   padding-right:20px;
-}
 
 table#tab_monstres{ font-size: 0.9em; /*border-collapse: separate;*/ }
 table#tab_monstres tr{}
 table#tab_monstres tr.equip {display: none;}
 table#tab_monstres tr.apoil {display: ;}
 
-table#tab_monstres th.entete_lig { width:150px; height: 50px;}
+table#tab_monstres th.entete_lig { width:150px; height: 32px;}
 table#tab_monstres th { border:1px solid black; }
-table#tab_monstres th td{margin-top: 10px;
-  									  margin-bottom: 10px; height: 25px;}
+table#tab_monstres th td{margin-top: 2px;
+  									  margin-bottom: 2px; height: 32px;}
 table#tab_monstres td{font-size: 1.2em;}
   									  
 table#aide_contrats {
 	font-size: 0.9em;
-
-   width:80%;
-   margin-left: 20%;
-
 }
 table#aide_contrats th, td {
 margin:0;

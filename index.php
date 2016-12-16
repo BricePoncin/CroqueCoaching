@@ -1,3 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+	<HEAD>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="shortcut icon"               href="favicon.ico" >
+		<link rel="icon"       type="image/gif" href="animated_favicon1.gif" >
+		<link rel="stylesheet" type="text/css"  href="class.css" />
+		<link rel="stylesheet" type="text/css"  href="style/footer.css" />
+		<link rel="stylesheet" type="text/css"  href="css/jquery-ui.css" />
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.js"></script>	
+		<script type="text/javascript" src="js/jquery.ui.datepicker.js"></script>	
+		<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+		<style>
+			.identification {border: 1px solid orange;}
+		</style>
 <?PHP
 	if( isset( $_GET['debug']) )
 			$debug=true;
@@ -7,9 +21,6 @@
 	require_once("session.php");
 	require_once("depoil.inc.php");
 	require_once("cm_api.inc.php");
-
-
-$baseMemory = memory_get_usage();
 
 	if(isset( $_GET['pg']) )
 		$pg=$_GET['pg'];
@@ -27,6 +38,7 @@ $baseMemory = memory_get_usage();
 	{
 		$url = "http://www.croquemonster.com/api/agency.xml?name=".$_POST['name'].";pass=".$_POST['cle_api'];
 		$xml = readXML( $url );
+		
 		if( substr($xml, 0, 6)== "Erreur" )
 		{
 				echo "<p style=\"color: red; font-size: 2em; font-weight: bold; align:center;\">$xml</p>";
@@ -52,25 +64,25 @@ $baseMemory = memory_get_usage();
 	switch($pg)
 	{
 		case 'accueil'    : include_once ("accueil.inc.php"); break;
-		case 'erreur'     : break;
-		case 'monstres'   : break;
-		case 'crea_monstr': break;
-		case 'fusion'     : include_once ("fusion.inc.php"); break;
+		case 'concours'   : include_once ("concours.inc.php"); break;
 		case 'contrats'   : include_once ("contrats.inc.php"); break;
+		case 'contrats2'  : include_once ("contrats.inc.php"); break;
+		case 'crea_monstr': break;
+		case 'erreur'     : break;
+		case 'fusion'     : include_once ("fusion.inc.php"); break;
+		case 'lst_mbl'    : break;
+		case 'mbl'        : include_once("parsembldata.inc.php");break;
+		case 'minou'      : break;
+		case 'monstres'   : break;
+		case 'news'       : break;
 		case 'portails'   : break;
 		case 'portails2'  : break;
 		case 'syndicat'   : break;
-		case 'lst_mbl'    : break;
-		case 'mbl'        : include_once("parsembldata.inc.php");break;
-		case 'whoami'     : break;
-		case 'news'       : break;
 		case 'sw5'        : break;
 		case 'tas'        : break;
-		case 'minou'      : break;
-		case 'minou_1.7'  : break;
-		case 'minou_2.1'  : break;
 		case 'warlog'     : break;
-		default 			    : include_once ("accueil.inc.php"); break;
+		case 'whoami'     : break;
+		default           : include_once ("accueil.inc.php"); break;
 	}
 
 
@@ -96,31 +108,44 @@ foreach( $timezones as $key => $zones )
 
 foreach( $tz as $zone => $ville )
 		asort( $tz[$zone] );
-		
-//echo json_encode($tz);
-
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
-	<HEAD>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
-		<link rel="shortcut icon" href="favicon.ico" >
-		<link rel="icon" type="image/gif" href="animated_favicon1.gif" >
-		<link rel="stylesheet" type="text/css" href="class.css" />
-			
-		<style>
-			.identification {border: 1px solid orange;}
-		</style>
 
-  <link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-  <script src="js/jquery-1.4.1.min.js"></script>
-  <script src="js/jquery.ui-1.8.6.min.js"></script>
-  <script src="js/jquery.idTabs.min.js"></script>
 		
-  <script>
+	
+	
+<?PHP
+		$onload = "";
+		switch($pg)
+			{
+				case 'accueil'    : break;
+				case 'erreur'     : break;
+				case 'monstres'   : break;
+				case 'crea_monstr': break;
+				case 'fusion'     : echo "<script type=\"text/javascript\" src=\"js/fusion.js\"></script>"; break;
+				case 'contrats'   : echo "<script type=\"text/javascript\" src=\"js/contrats.js\"></script>"; break;
+				case 'contrats2'  : echo "<script type=\"text/javascript\" src=\"js/contrats2.js\"></script>"; break;
+				case 'portails'   : break;
+				case 'portails2'  : break;
+				case 'syndicat'   : echo "<script type=\"text/javascript\" src=\"js/syndicat.js\"></script>"; break;
+				case 'lst_mbl'    : break;
+				case 'mbl'        : break;
+				case 'whoami'     : break;
+				case 'news'       : break;
+				case 'sw5'        : break;
+				case 'tas'        : break;
+				case 'minou'      : break;
+				case 'warlog'     : echo "<script type=\"text/javascript\" src=\"js/warlog.js\"></script>"; break;
+				case 'concours'   : echo "<script type=\"text/javascript\" src=\"js/concours.js\"></script>"; break;;
+				default           : break;
+			}	
+?>
+	
+	
+<script type="text/javascript">
+
  	/* French initialisation for the jQuery UI date picker plugin. */
-/* Written by Keith Wood (kbwood{at}iinet.com.au) and Stephane Nahmani (sholby@sholby.net). */
+	/* Written by Keith Wood (kbwood{at}iinet.com.au) and Stephane Nahmani (sholby@sholby.net). */
+
 jQuery(function($){
 	$.datepicker.regional['fr'] = {
 		closeText: 'Fermer',
@@ -172,13 +197,9 @@ jQuery(function($){
   </script>
 
 		<script type="text/javascript" src="js/infobulle.js"></script>
-		<script type="text/javascript" src="js/fusion.js"></script>
 		<script type="text/javascript" src="js/popup.js"></script>
-		<script type="text/javascript" src="js/syndicat.js"></script>
-
-
+		
 		<script type="text/javascript">
-    <!--
 
         arrMonstres = new Array();
     <?PHP
@@ -213,13 +234,17 @@ jQuery(function($){
           
             if (v_class == "hidden")
             {
+				if( document.getElementById(lien) )
             		document.getElementById(lien).innerHTML = "(-)";
+				if( document.getElementById(identifiant) )
             		document.getElementById(identifiant).className = "visible";
             }
             else
             {
-            		document.getElementById(identifiant).className = "hidden";
+				if( document.getElementById(lien) )
             		document.getElementById(lien).innerHTML = "(+)";
+				if( document.getElementById(identifiant) )
+            		document.getElementById(identifiant).className = "hidden";
             }
        }
         
@@ -237,16 +262,16 @@ jQuery(function($){
             var_fig=fusion(<?PHP echo $_SESSION['level']; ?>, parseInt(document.getElementById('fig1').innerHTML), parseInt(document.getElementById('fig2').innerHTML));
             var_end=fusion(<?PHP echo $_SESSION['level']; ?>, parseInt(document.getElementById('end1').innerHTML), parseInt(document.getElementById('end2').innerHTML));  
 
-						document.getElementById('sad_fus').innerHTML = var_sad;
-						document.getElementById('ugl_fus').innerHTML = var_ugl;
-						document.getElementById('pow_fus').innerHTML = var_pow;
-						document.getElementById('gre_fus').innerHTML = var_gre;
-						document.getElementById('con_fus').innerHTML = var_con;
-						document.getElementById('fig_fus').innerHTML = var_fig;
-						document.getElementById('end_fus').innerHTML = var_end;
+			document.getElementById('sad_fus').innerHTML = var_sad;
+			document.getElementById('ugl_fus').innerHTML = var_ugl;
+			document.getElementById('pow_fus').innerHTML = var_pow;
+			document.getElementById('gre_fus').innerHTML = var_gre;
+			document.getElementById('con_fus').innerHTML = var_con;
+			document.getElementById('fig_fus').innerHTML = var_fig;
+			document.getElementById('end_fus').innerHTML = var_end;
 
-						document.getElementById('frm_result').src='./monstrinator.php?sad='+var_sad+'&lai='+var_ugl+'&for='+var_pow+'&gou='+var_gre+'&con='+var_con+'&com='+var_fig+'&end='+var_end+'&niv_fus=1';
-								
+			document.getElementById('frm_result').src='./monstrinator.php?sad='+var_sad+'&lai='+var_ugl+'&for='+var_pow+'&gou='+var_gre+'&con='+var_con+'&com='+var_fig+'&end='+var_end+'&niv_fus=1';
+					
             <?PHP
           }
           ?>
@@ -256,7 +281,7 @@ jQuery(function($){
         {
             for(var idx=0; idx<11; idx++)
             {
-            		if( document.getElementById('monstre'+mid+idx) )
+				if( document.getElementById('monstre'+mid+idx) )
                 	document.getElementById('monstre'+mid+idx).className = "monstre"+mid+" hidden";
             }
             document.getElementById('monstre'+mid+'99').className = "monstre"+mid+" hidden";
@@ -267,89 +292,24 @@ jQuery(function($){
         
         function cache(identifiant)
         {
-            var v_class = document.getElementById(identifiant).className;
+			var el = document.getElementById(identifiant);
             
-            if (v_class == "hidden")
-            		document.getElementById(identifiant).className = "visible";
+			if ( el == null )
+				return;
+			
+            if ( el.className == "hidden")
+				document.getElementById(identifiant).className = "visible";
             else
-            		document.getElementById(identifiant).className = "hidden";
+				document.getElementById(identifiant).className = "hidden";
        	}
-        
-        /*
-        function GetTime( timezone ) 
-				{
-						var dt = new Date();
-						var def = dt.getTimezoneOffset()/60;
-						var gmt = (dt.getHours() + def);
-						var tz = parseInt(timezone);
-						var heure_gmt_temp = dt.getUTCHours();
-						var heure_gmt = 24 - (heure_gmt_temp - def);
-						
-						// return (heure_gmt_temp+" "+tz+" "+def+" "+heure_gmt);
-						
-						var h = 24 - tz - gmt;
 
-						var h=0;
-					
-								h = 24 - tz - (heure_gmt - heure_gmt_temp) + def;
-					
-					return ( h+ ' '+heure_gmt+' '+heure_gmt_temp+' '+def+' '+(heure_gmt - heure_gmt_temp - def) );
-
-						var ho = check24(h);
-						
-						//return ('24 - '+tz+' -'+def + ' : ' +gmt+ ' => '+ IfZero(ho) + ending);
-						//return ( IfZero(ho) + ending );
-						
-						return ( (ho)+'h'+' => '+def );
-				}
-				
-				function IfZero(num) 
-				{
-						return ((num <= 9) ? ("0" + num) : num);
-				}
-				function check24(hour) 
-				{
-						return (hour >= 24) ? hour - 24 : hour;
-				}
-				*/
-
-    -->
     </script>
 		
 <?PHP
 		include ("google_analytics.php");
-
-		switch($pg)
-			{
-				case 'accueil'    : break;
-				case 'erreur'     : break;
-				case 'monstres'   : break;
-				case 'crea_monstr': break;
-				case 'fusion'     : break;
-				case 'contrats'   : break;
-				case 'portails'   : break;
-				case 'portails2'  : break;
-				case 'syndicat'   : break;
-				case 'lst_mbl'    : break;
-				case 'mbl'        : break;
-				case 'whoami'     : break;
-				case 'news'       : break;
-				case 'sw5'        : break;
-				case 'tas'        : break;
-				case 'minou'      : break;
-				case 'minou_1.7'  : break;
-				case 'minou_2.1'  : echo "<script src=\"/minou_2.1/client/lib/jquery-1.8.2.min.js\" type=\"text/javascript\"></script>";
-									echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/minou_2.1/client/themes/default/jquery.phpfreechat.min.css\" />";
-                                    echo "<script src=\"/minou_2.1/client/jquery.phpfreechat.min.js\" type=\"text/javascript\"></script>";
-									echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/minou_2.1/client/themes/carbon/jquery.phpfreechat.min.css\" />";
-								    break;
-				case 'warlog'     : break;
-				default 		  : break;
-			}	
-	
 ?>
 <TITLE>CroqueCoaching : Site d'aide au jeu Croque Monster</TITLE>
-	</HEAD><?PHP
+<?PHP
 		$onload = "";
 		switch($pg)
 			{
@@ -363,6 +323,7 @@ jQuery(function($){
 													 	  $onload = "onload=\"javascript:hide(1,'monstre199');hide(2,'monstre299');load_ampe(1);load_ampe(2);\""; 
 													  break;
 				case 'contrats'   : $onload = "onload=\"javascript:cache('choix_difficulte');\""; break;
+				case 'contrats2'  : $onload = "onload=\"javascript:cache('choix_difficulte');\""; break;
 				case 'portails'   : break;
 				case 'portails2'  : break;
 				case 'syndicat'   : break;
@@ -373,14 +334,58 @@ jQuery(function($){
 				case 'sw5'        : break;
 				case 'tas'        : break;
 				case 'minou'      : break;
-				case 'minou_1.7'  : break;
-				case 'minou_2.1'  : break;
 				case 'warlog'     : break;
 				default           : break;
 			}	
 	
-	?><body <?PHP echo $onload;?>>
-		
+?>
+	<STYLE type="text/css">
+		#masquage {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: orange;
+			opacity: 0.2;
+			z-index: 10;
+		}
+		#div_cnx {
+			border: 1px solid black;
+			background-color: white;
+			position:absolute;
+			left: 50%;
+			top: 50%;
+			width: 300px;
+			height: 150px;
+			margin-left: -150px; /* Cette valeur doit être la moitié négative de la valeur du width */
+			margin-top: -75px; /* Cette valeur doit être la moitié négative de la valeur du height */
+			z-index: 100;
+		}
+		#div_cnx_cnt{
+			position:absolute;
+			left: 50%;
+			top: 50%;
+			width: 180px;
+			height: 100px;
+			margin-left: -90px;
+			margin-top: -50px;
+		}
+	</STYLE>
+
+	
+</HEAD>
+<BODY <?PHP echo $onload;?>>
+
+<div id="masquage"></div>
+<div id="div_cnx">
+	<div id="div_cnx_cnt">
+		<form name="frm_conn" action="index.php" method="POST">
+			<input type="hidden" name="log" value="1">
+			Name :<input type="text" name="name" /><BR/>
+			Cl&eacute; API :<input type="password" name="cle_api"/><BR/>
+		</form>
+		<a href="#" onClick="document.forms['frm_conn'].submit()">Connecter</a>
+	</div>
+</div>
 		<div id="global">
 		<?PHP	
 			if ($pg=='accueil')
@@ -403,15 +408,12 @@ jQuery(function($){
 				</div><!-- #entete -->
 		<?PHP
 			}
-		?>
-<div id="navigation">
-		
-<?PHP
+			
+/* #navigation */			
 		include ("menu.php");
 ?>
-</div><!-- #navigation -->
 
-	<div id="contenu">
+	<div id="contenu" style="height: 600px; overflow-y: auto;">
 
 <?PHP 
 
@@ -423,6 +425,7 @@ jQuery(function($){
 		case 'crea_monstr': include ("crea_monstre.php"); break;  
 		case 'fusion'     : include ("fusion.php"); break;
 		case 'contrats'   : include ("contrats.php"); break;
+		case 'contrats2'  : include ("contrats2.php"); break;
 		case 'portails'   : include ("portails.php"); break;
 		case 'portails2'  : include ("portails2.php"); break;
 		case 'syndicat'   : include ("syndicat.php"); break;
@@ -433,26 +436,50 @@ jQuery(function($){
 		case 'sw5'        : include ("syndic_stats_guerre_5.php");break;
 		case 'tas'        : include ("stats_tas.php");break;
 		case 'minou'      : include ("minou.php");break;
-		case 'minou_1.7'  : include ("minou_1.7.php");break;
-		case 'minou_2.1'  : include ("minou_2.1.php");break;
 		case 'warlog'     : include ("warlog.php");break;
-    default           : include ("accueil.php"); break;
+		case 'concours'   : include ("concours.php");break;
+		default           : include ("accueil.php"); break;
 	}	
 ?>
 
 </div><!-- #contenu -->
 
-
+<div class="footer"><a class="leetchi-widget-btn" href="https://www.leetchi.com/c/projets-de-croque-coaching"><img src="https://asset.leetchi.com/Content/Quenette/img/culture/fr/view/wizard/embed-btn.png" alt="leetchi"></a></div>
 </div><!-- #global -->
 
 <div id="bulle" class="info"></div>
 
-<div id="popNamaNi" style="position:absolute;background-color:#EBEBEB;cursor:hand;left:0px;top:0px;display:none" onMousedown="onyVaty(event)" onMouseup="retiensMoi()">
-<div><img alt="Close" src="images/close.gif" onClick="tchaoAdemain()" width="16" height="14"></div>
-<div id="dansPopNamaNi" style="height:100%">
-<iframe id="NaMaNiPoP" name="NaMaNiPoP"  src="" width=100% height=100%></iframe>
-</div>
+<div id="popNamaNi" style="position:absolute;background-color:#EBEBEB;cursor:hand;left:0px;top:0px;display:none" 
+	onMousedown="onyVaty(event)" onMouseup="retiensMoi()">
+	<div>
+		<img alt="Close" src="images/close.gif" onClick="tchaoAdemain()" width="16" height="14">
+	</div>
+	<div id="dansPopNamaNi" style="height:155px" class="outdiv">
+		<iframe id="NaMaNiPoP" name="NaMaNiPoP"  src="_blank" width="310" height="155" class="iniframe"></iframe>
+	</div>
 </div>
 
+	
+	<script>
+	window.onload = function () {
+<?PHP
+		if (empty($_SESSION))
+			echo "var logged=false;";
+		else
+			echo "var logged=true;";
+?>
+
+		if ( logged )
+		{
+		    document.getElementById('masquage').style.display = "none";
+            document.getElementById('div_cnx').style.display = "none";
+		}
+		else
+		{
+		    document.getElementById('masquage').style.display = "block";
+            document.getElementById('div_cnx').style.display = "block";
+		}		
+	}
+	</script>
 </body>
 </html>
