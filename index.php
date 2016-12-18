@@ -9,6 +9,8 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.js"></script>	
 		<script type="text/javascript" src="js/jquery.ui.datepicker.js"></script>	
 		<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+		<script src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+		<link rel="stylesheet" type="text/css"  href="jquery-ui-1.12.1.custom/jquery-ui.css" />
 		<style>
 			.identification {border: 1px solid orange;}
 		</style>

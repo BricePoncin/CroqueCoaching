@@ -44,6 +44,19 @@
 		return $arConcours;
 	}
 	
+	function concours_ajouter($dateDeb, $dateFin, $desc, $type, $objet)
+	{
+		connect();
+		
+		$stmt = "INSERT INTO `cm_concours` (`cnc_dt_debut`, `cnc_dt_fin`, `cnc_desc`, `cnc_type`, `cnc_obj`) VALUES
+			('$dateDeb', '$dateFin', '$desc', $type, $objet)";
+		echo $stmt.'<BR/>';
+		insert($stmt);
+		disconnect();
+		
+		return;
+	}
+	
 	function concours_result($cnc_id)
 	{
 		connect();
