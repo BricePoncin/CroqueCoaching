@@ -90,8 +90,9 @@
 	{
 		connect();
 
-		$stmt  = "SELECT user as User, sum(quantity) as Decompte, min(dl.date) as dt_first";
+		$stmt  = "SELECT user as User, a.syndic as Syndic, sum(quantity) as Decompte, min(dl.date) as dt_first";
 		$stmt .= "  FROM cm_dumplog".$szWar." dl ";
+		$stmt .= "  	left join cm_agency a on a.name = dl.user";
 		$stmt .= " WHERE date between '$dt_deb' AND '$dt_fin'";  
 		$stmt .= " GROUP BY user";
 		$stmt .= " ORDER BY Decompte DESC, dt_first ASC";
@@ -107,8 +108,9 @@
 	{
 		connect();
 		
-		$stmt  = "SELECT syndicate_id as User, sum(quantity) as Decompte, min(dl.date) as dt_first";
+		$stmt  = "SELECT syndicate_id as User, a.syndic as Syndic, sum(quantity) as Decompte, min(dl.date) as dt_first";
 		$stmt .= "  FROM cm_dumplog".$szWar." dl ";
+		$stmt .= "  	left join cm_agency a on a.name = dl.user";
 		$stmt .= " WHERE date between '$dt_deb' AND '$dt_fin'";  
 		$stmt .= " GROUP BY syndicate_id";
 		$stmt .= " ORDER BY Decompte DESC, dt_first ASC";
@@ -124,8 +126,9 @@
 	{
 		connect();
 		
-		$stmt  = "SELECT user as User, count(1) as Decompte, min(dl.date) as dt_first";
+		$stmt  = "SELECT user as User, a.syndic as Syndic, count(1) as Decompte, min(dl.date) as dt_first";
 		$stmt .= "  FROM cm_dumplog".$szWar." dl ";
+		$stmt .= "  	left join cm_agency a on a.name = dl.user";
 		$stmt .= " WHERE type = 1";
 		$stmt .= "   AND date between '$dt_deb' AND '$dt_fin'";  
 		$stmt .= " GROUP BY user";
@@ -141,8 +144,9 @@
 	{
 		connect();
 		
-		$stmt  = "SELECT user as User, sum(quantity) as Decompte, min(dl.date) as dt_first";
+		$stmt  = "SELECT user as User, a.syndic as Syndic, sum(quantity) as Decompte, min(dl.date) as dt_first";
 		$stmt .= "  FROM cm_dumplog".$szWar." dl ";
+		$stmt .= "  	left join cm_agency a on a.name = dl.user";
 		$stmt .= " WHERE type = 2";
 		$stmt .= "   AND date between '$dt_deb' AND '$dt_fin'";  
 		$stmt .= " GROUP BY user";
@@ -158,9 +162,9 @@
 	{
 		connect();
 
-		$stmt  = "SELECT dl.user as User, sy.cm_syndic_name as Syndic, count(1) as Decompte, min(dl.date) as dt_first";
+		$stmt  = "SELECT dl.user as User, a.syndic as Syndic, count(1) as Decompte, min(dl.date) as dt_first";
 		$stmt .= "  FROM cm_dumplog".$szWar." dl ";
-		$stmt .= "       INNER JOIN cm_syndicats sy on sy.cm_syndic_id = dl.syndicate_id ";
+		$stmt .= "  	left join cm_agency a on a.name = dl.user";
 		$stmt .= " WHERE dl.type = 1";							 
 		$stmt .= "   AND dl.date between '$dt_deb' AND '$dt_fin'";  
 		$stmt .= "   AND dl.quantity = $type_obj"; 			 

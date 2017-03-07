@@ -15,6 +15,8 @@
 			.identification {border: 1px solid orange;}
 		</style>
 <?PHP
+	require_once("sql.php");
+
 	if( isset( $_GET['debug']) )
 			$debug=true;
 	else
@@ -56,6 +58,26 @@
 				$_SESSION['cle_api']    = $_POST['cle_api'];
 				$_SESSION['level']      =  0;
 				$_SESSION['ville_prout']= '';
+				
+				$_SESSION['syndic']     = strval($xml['syndicate']);
+				$_SESSION['syndic_id']  = intval($xml['syndicateId']);
+				
+				
+				$stmt1 = "INSERT INTO cm_agency (id, name, syndic_id, syndic, last_cnx ) "
+					  ."VALUES (".$_SESSION['id'].", '".$_SESSION['name']."', ".$_SESSION['syndic_id'].", '".$_SESSION['syndic']."', SYSDATE() )";
+
+				$stmt2 = "UPDATE cm_agency SET 
+								  syndic_id =".$_SESSION['syndic_id']."
+								, syndic = '".$_SESSION['syndic']."'
+								, last_cnx = SYSDATE()
+								WHERE id = ".$_SESSION['id'];
+
+				connect();
+				
+				$ret = insert($stmt1); 
+				if ($ret != 1 )
+					$ret = insert($stmt2);
+				disconnect();
 		}	
 	}
 

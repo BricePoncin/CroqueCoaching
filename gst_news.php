@@ -48,3 +48,17 @@
 					</div>
 
 				</form>
+<?PHP
+
+	$stmt = "SELECT id, name, syndic_id, syndic, last_cnx FROM cm_agency";
+	connect();
+	$ret = select($stmt, $res);
+	echo "<table border=1>";
+	foreach($res as $idx => $line)
+	{
+		echo "<tr><td>".$line['id']."</td><td>".$line['name']."</td><td>".$line['syndic_id']."</td><td>".$line['syndic']."</td><td>".$line['last_cnx']."</td></tr>";
+	}
+	echo "</table>";
+	disconnect();
+
+?>

@@ -158,7 +158,7 @@ $("#datepicker2").datepicker({ changeMonth: true, changeYear: true, minDate: new
 			
 			$class=($idx%2==0)?"pair":"impair";
 			
-			if ($idx > 9 )
+			if (($idx > 9 ) && ($line['User'] != $_SESSION['name']))
 				continue;
 			
 			echo "<tr class=\"$class\">"
